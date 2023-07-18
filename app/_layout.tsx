@@ -1,7 +1,7 @@
 import FontAwesome from '@expo/vector-icons/FontAwesome';
 import { DarkTheme, DefaultTheme, ThemeProvider } from '@react-navigation/native';
 import { useFonts } from 'expo-font';
-import { SplashScreen, Stack } from 'expo-router';
+import { Slot, SplashScreen, Stack } from 'expo-router';
 import { useEffect } from 'react';
 import { useColorScheme } from 'react-native';
 
@@ -10,10 +10,10 @@ export {
   ErrorBoundary,
 } from 'expo-router';
 
-export const unstable_settings = {
-  // Ensure that reloading on `/modal` keeps a back button present.
-  initialRouteName: '(tabs)',
-};
+// export const unstable_settings = {
+//   // Ensure that reloading on `/modal` keeps a back button present.
+//   initialRouteName: 'index',
+// };
 
 // Prevent the splash screen from auto-hiding before asset loading is complete.
 SplashScreen.preventAutoHideAsync();
@@ -39,18 +39,5 @@ export default function RootLayout() {
     return null;
   }
 
-  return <RootLayoutNav />;
-}
-
-function RootLayoutNav() {
-  const colorScheme = useColorScheme();
-
-  return (
-    <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
-      <Stack>
-        <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
-        <Stack.Screen name="modal" options={{ presentation: 'modal' }} />
-      </Stack>
-    </ThemeProvider>
-  );
+  return <Slot />;
 }
