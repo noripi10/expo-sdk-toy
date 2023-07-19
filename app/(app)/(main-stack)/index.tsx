@@ -3,13 +3,15 @@ import Colors from '@/constants/Colors';
 import { FontAwesome } from '@expo/vector-icons';
 import { Link, useRouter } from 'expo-router';
 import { Pressable, StyleSheet, useColorScheme } from 'react-native';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 export default function Menu() {
   const router = useRouter();
+  const { top } = useSafeAreaInsets();
 
   return (
-    <View style={styles.continer}>
-      <Link asChild href='/_sitemap'>
+    <View style={[styles.continer, { paddingTop: top }]}>
+      <Link asChild href='/_sitemap' style={{ display: __DEV__ ? 'flex' : 'none' }}>
         <Pressable>
           {({ pressed }) => (
             <View style={{ flexDirection: 'row', alignItems: 'center' }}>

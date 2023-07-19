@@ -8,10 +8,10 @@ export default function AppLayout() {
   return (
     <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
       <Stack>
-        <Stack.Screen name='index' options={{ headerShown: true }} />
-        <Stack.Screen name='face-detector' options={{ headerShown: true }} />
+        <Stack.Screen name='index' options={{ headerTitle: 'Expo SDK Toy' }} />
+        <Stack.Screen name='face-detector' options={{ headerShown: true, headerTitle: 'Face Detector' }} />
 
-        <Stack.Screen name='modal' options={{ presentation: 'modal' }} />
+        <Stack.Screen name='modal' options={{ presentation: 'modal', headerTitle: 'Modal' }} />
       </Stack>
     </ThemeProvider>
   );

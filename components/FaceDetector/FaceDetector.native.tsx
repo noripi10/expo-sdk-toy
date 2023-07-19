@@ -1,16 +1,21 @@
-import { useEffect, useRef, useState } from 'react';
-import { View, Text, StyleSheet, Pressable } from 'react-native';
+import React, { useEffect, useRef, useState } from 'react';
+import { StyleSheet, Pressable, FlatListComponent } from 'react-native';
 
 import { MaterialIcons } from '@expo/vector-icons';
 
-import { Camera, CameraType, FaceDetectionResult } from 'expo-camera';
+import { Camera, CameraType, FaceDetectionResult, Point } from 'expo-camera';
 import * as Device from 'expo-device';
-// import * as ExpoFaceDetector from 'expo-face-detector';
+import { Text, View } from '../Themed';
+import * as ExpoFaceDetector from 'expo-face-detector';
+import { FaceFeature } from 'expo-face-detector';
+import Animated from 'react-native-reanimated';
 
 export default function FaceDetector() {
   const [status, requestPermission] = Camera.useCameraPermissions();
   const [cameraType, setCameraType] = useState(CameraType.back);
   const [pause, setPause] = useState(true);
+
+  const [faces, setFaces] = useState<FaceFeature[]>();
 
   const cameraRef = useRef<Camera>(null);
 
@@ -46,12 +51,10 @@ export default function FaceDetector() {
     console.info({ result });
   };
 
-  // const faceDetectorHandler = async (faces: FaceDetectionResult) => {
-  //   const millseconds = new Date().getMilliseconds();
-  //   if (millseconds % 13 === 0) {
-  //     console.info(faces);
-  //   }
-  // };
+  const faceDetectorHandler = async (result: FaceDetectionResult) => {
+    console.info(JSON.stringify(result.faces, null, 2));
+    setFaces(result.faces as FaceFeature[]);
+  };
 
   return (
     <View style={styles.wrapCamera}>
@@ -66,15 +69,61 @@ export default function FaceDetector() {
           ref={cameraRef}
           style={styles.camera}
           type={cameraType}
-          // faceDetectorSettings={{
-          //   mode: ExpoFaceDetector.FaceDetectorMode.fast,
-          //   detectLandmarks: ExpoFaceDetector.FaceDetectorLandmarks.none,
-          //   runClassifications: ExpoFaceDetector.FaceDetectorClassifications.none,
-          //   minDetectionInterval: 100,
-          //   tracking: true,
-          // }}
-          // onFacesDetected={faceDetectorHandler}
+          faceDetectorSettings={{
+            mode: ExpoFaceDetector.FaceDetectorMode.fast,
+            detectLandmarks: ExpoFaceDetector.FaceDetectorLandmarks.all,
+            runClassifications: ExpoFaceDetector.FaceDetectorClassifications.all,
+            minDetectionInterval: 100,
+            tracking: true,
+          }}
+          onFacesDetected={faceDetectorHandler}
         >
+          {faces?.map((face, index) => (
+            <>
+              <Animated.View
+                key={index.toString()}
+                style={{
+                  position: 'absolute',
+                  top: face.bounds.origin.y,
+                  left: face.bounds.origin.x,
+                  width: face.bounds.size.width,
+                  height: face.bounds.size.height,
+                  backgroundColor: 'rgba(0, 255, 225, 0.3)',
+                  borderRadius: 4,
+                  // transform: [
+                  //   { perspective: 600 },
+                  //   { rotateZ: `${(face.rollAngle ?? 0).toFixed(0)}deg` },
+                  //   { rotateY: `${(face.yawAngle ?? 0).toFixed(0)}deg` },
+                  // ],
+                  borderWidth: 1,
+                  borderColor: 'rgba(0, 255, 225, 1)',
+                }}
+              />
+              {Object.keys(face).map((pos) => {
+                if (!pos.includes('Position')) {
+                  return <React.Fragment key={pos} />;
+                }
+
+                // @ts-ignore
+                const point = face[pos] as Point;
+                return (
+                  <Animated.View
+                    key={pos}
+                    style={{
+                      position: 'absolute',
+                      top: point.y,
+                      left: point.x,
+                      width: 8,
+                      height: 8,
+                      borderRadius: 999,
+                      backgroundColor: 'rgba(0, 255, 225, 1)',
+                    }}
+                  />
+                );
+              })}
+            </>
+          ))}
+
           <Pressable style={styles.cameraTypeButton} onPress={typeChageHandler}>
             {(props) => (
               <MaterialIcons
