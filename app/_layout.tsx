@@ -1,3 +1,5 @@
+import { config } from '@/gluestack-ui.config';
+import { GluestackUIProvider } from '@/gluestack-ui/components';
 import FontAwesome from '@expo/vector-icons/FontAwesome';
 import { useFonts } from 'expo-font';
 import { Slot, SplashScreen } from 'expo-router';
@@ -38,8 +40,8 @@ export default function RootLayout() {
   }
 
   return (
-    <>
+    <GluestackUIProvider config={config.theme}>
       <Slot />
-    </>
+    </GluestackUIProvider>
   );
 }

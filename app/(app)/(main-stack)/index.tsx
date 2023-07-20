@@ -1,13 +1,23 @@
 import { Text, View } from '@/components/Themed';
 import Colors from '@/constants/Colors';
+import { Button } from '@/gluestack-ui/components';
 import { FontAwesome } from '@expo/vector-icons';
 import { Link, useRouter } from 'expo-router';
 import { Pressable, StyleSheet, useColorScheme } from 'react-native';
+import Animated, { useAnimatedStyle, useSharedValue, withRepeat, withTiming } from 'react-native-reanimated';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 export default function Menu() {
   const router = useRouter();
   const { top } = useSafeAreaInsets();
+
+  const animatedValue = useSharedValue(-32);
+
+  const animatedStyle = useAnimatedStyle(() => {
+    return {
+      transform: [{ translateX: animatedValue.value }],
+    };
+  });
 
   return (
     <View style={[styles.continer, { paddingTop: top }]}>
@@ -21,7 +31,7 @@ export default function Menu() {
                 color={Colors[useColorScheme() ?? 'light'].text}
                 style={{ marginRight: 15, opacity: pressed ? 0.5 : 1 }}
               />
-              <Text>SiteMap</Text>
+              <Text>Go to SiteMap</Text>
             </View>
           )}
         </Pressable>
@@ -37,7 +47,7 @@ export default function Menu() {
                 color={Colors[useColorScheme() ?? 'light'].text}
                 style={{ marginRight: 15, opacity: pressed ? 0.5 : 1 }}
               />
-              <Text>Modal</Text>
+              <Text>Go to Modal</Text>
             </View>
           )}
         </Pressable>
@@ -53,25 +63,30 @@ export default function Menu() {
                 color={Colors[useColorScheme() ?? 'light'].text}
                 style={{ marginRight: 15, opacity: pressed ? 0.5 : 1 }}
               />
-              <Text>Face-Detector</Text>
+              <Text>Go to Face-Detector</Text>
             </View>
           )}
         </Pressable>
       </Link>
 
-      <Pressable onPress={() => router.replace('/(auth)/hero')}>
-        {({ pressed }) => (
-          <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-            <FontAwesome
-              name='sign-out'
-              size={25}
-              color={Colors[useColorScheme() ?? 'light'].text}
-              style={{ marginRight: 15, opacity: pressed ? 0.5 : 1 }}
-            />
-            <Text>Logout</Text>
-          </View>
-        )}
-      </Pressable>
+      <Button.Group
+        onLayout={() => {
+          animatedValue.value = withRepeat(withTiming(32, { duration: 1000 }), -1, true);
+        }}
+      >
+        <Button bg='$teal500' w='$full' borderRadius={'$full'} onPress={() => router.replace('/(auth)/hero')}>
+          {/* <Button.Spinner /> */}
+          <Animated.View style={[{ flexDirection: 'row' }, animatedStyle]}>
+            <Button.Icon as={() => <FontAwesome name='sign-out' size={24} color={'#fff'} />} />
+            <Button.Icon as={() => <FontAwesome name='sign-out' size={24} color={'#fff'} />} />
+            <Button.Icon as={() => <FontAwesome name='sign-out' size={24} color={'#fff'} />} />
+            <Button.Text>Logout</Button.Text>
+            <Button.Icon as={() => <FontAwesome name='sign-out' size={24} color={'#fff'} />} />
+            <Button.Icon as={() => <FontAwesome name='sign-out' size={24} color={'#fff'} />} />
+            <Button.Icon as={() => <FontAwesome name='sign-out' size={24} color={'#fff'} />} />
+          </Animated.View>
+        </Button>
+      </Button.Group>
     </View>
   );
 }
