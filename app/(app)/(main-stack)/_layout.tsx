@@ -1,5 +1,6 @@
 import { DarkTheme, DefaultTheme, ThemeProvider } from '@react-navigation/native';
 import { Stack } from 'expo-router';
+import { Drawer } from 'expo-router/drawer';
 import { useColorScheme } from 'react-native';
 
 export default function AppLayout() {
@@ -7,12 +8,13 @@ export default function AppLayout() {
 
   return (
     <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
-      <Stack>
-        <Stack.Screen name='index' options={{ headerTitle: 'Expo SDK Toy' }} />
-        <Stack.Screen name='face-detector' options={{ headerShown: true, headerTitle: 'Face Detector' }} />
+      <Drawer>
+        <Drawer.Screen name='index' options={{ headerTitle: 'Expo SDK Toy' }} />
+        <Drawer.Screen name='face-detector' options={{ headerShown: true, headerTitle: 'Face Detector' }} />
 
-        <Stack.Screen name='modal' options={{ presentation: 'modal', headerTitle: 'Modal' }} />
-      </Stack>
+        <Drawer.Screen name='modal' options={{ headerTitle: 'Modal' }} />
+        {/* <Stack.Screen name='modal' options={{ presentation: 'modal', headerTitle: 'Modal' }} /> */}
+      </Drawer>
     </ThemeProvider>
   );
 }

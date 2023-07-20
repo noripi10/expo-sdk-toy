@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { StyleSheet, Pressable, FlatListComponent } from 'react-native';
+import { StyleSheet, Pressable } from 'react-native';
 
 import { MaterialIcons } from '@expo/vector-icons';
 
@@ -9,6 +9,7 @@ import { Text, View } from '../Themed';
 import * as ExpoFaceDetector from 'expo-face-detector';
 import { FaceFeature } from 'expo-face-detector';
 import Animated from 'react-native-reanimated';
+import { useIsFocused } from '@react-navigation/native';
 
 export default function FaceDetector() {
   const [status, requestPermission] = Camera.useCameraPermissions();
@@ -19,9 +20,15 @@ export default function FaceDetector() {
 
   const cameraRef = useRef<Camera>(null);
 
+  const isFucus = useIsFocused();
+
   useEffect(() => {
     requestPermission();
-  }, []);
+
+    if (!isFucus) {
+      setPause(true);
+    }
+  }, [isFucus]);
 
   if (!Device.isDevice) {
     return (
@@ -73,7 +80,7 @@ export default function FaceDetector() {
             mode: ExpoFaceDetector.FaceDetectorMode.fast,
             detectLandmarks: ExpoFaceDetector.FaceDetectorLandmarks.all,
             runClassifications: ExpoFaceDetector.FaceDetectorClassifications.all,
-            minDetectionInterval: 100,
+            minDetectionInterval: 1500,
             tracking: true,
           }}
           onFacesDetected={faceDetectorHandler}
@@ -90,11 +97,11 @@ export default function FaceDetector() {
                   height: face.bounds.size.height,
                   backgroundColor: 'rgba(0, 255, 225, 0.3)',
                   borderRadius: 4,
-                  // transform: [
-                  //   { perspective: 600 },
-                  //   { rotateZ: `${(face.rollAngle ?? 0).toFixed(0)}deg` },
-                  //   { rotateY: `${(face.yawAngle ?? 0).toFixed(0)}deg` },
-                  // ],
+                  transform: [
+                    { perspective: 600 },
+                    { rotateZ: `${(face.rollAngle ?? 0).toFixed(0)}deg` },
+                    // { rotateY: `${(face.yawAngle ?? 0).toFixed(0)}deg` },
+                  ],
                   borderWidth: 1,
                   borderColor: 'rgba(0, 255, 225, 1)',
                 }}
