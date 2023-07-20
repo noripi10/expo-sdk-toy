@@ -1,6 +1,7 @@
 import { Text, View } from '@/components/Themed';
 import Colors from '@/constants/Colors';
 import { Button } from '@/gluestack-ui/components';
+import { useWidth } from '@/hooks/useWidth';
 import { FontAwesome } from '@expo/vector-icons';
 import { Link, useRouter } from 'expo-router';
 import { Pressable, StyleSheet, useColorScheme } from 'react-native';
@@ -11,8 +12,9 @@ export default function Menu() {
   const router = useRouter();
   const { top } = useSafeAreaInsets();
 
-  const animatedValue = useSharedValue(-32);
+  const flexibleWidth = useWidth();
 
+  const animatedValue = useSharedValue(-32);
   const animatedStyle = useAnimatedStyle(() => {
     return {
       transform: [{ translateX: animatedValue.value }],
@@ -20,7 +22,7 @@ export default function Menu() {
   });
 
   return (
-    <View style={[styles.continer, { paddingTop: top }]}>
+    <View style={[styles.continer, { paddingTop: top, width: flexibleWidth, margin: 'auto' }]}>
       <Link asChild href='/_sitemap' style={{ display: __DEV__ ? 'flex' : 'none' }}>
         <Pressable>
           {({ pressed }) => (
