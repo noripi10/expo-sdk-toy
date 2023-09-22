@@ -1,30 +1,38 @@
 import React from 'react';
-
-import { Text, View } from '@/components/Themed';
-import Colors from '@/constants/Colors';
-import { Button, ButtonText, ButtonIcon, ButtonGroup, ButtonSpinner } from '@gluestack-ui/themed';
-import { useWidth } from '@/hooks/useWidth';
-import { FontAwesome } from '@expo/vector-icons';
-import { Link, useRouter } from 'expo-router';
 import { Pressable, StyleSheet, useColorScheme } from 'react-native';
-import Animated, { useAnimatedStyle, useSharedValue, withRepeat, withTiming } from 'react-native-reanimated';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import { Link } from 'expo-router';
+import { FontAwesome } from '@expo/vector-icons';
+
+import { Button, ButtonText } from '@gluestack-ui/themed';
+import { View, Text } from '@/components/Themed';
+import Colors from '@/constants/Colors';
+import { useWidth } from '@/hooks/useWidth';
+import { useNotification } from '@/hooks/useNotification';
 
 export default function Menu() {
-  const router = useRouter();
   const { top } = useSafeAreaInsets();
 
+  const { requestPermissions, isNofification, testScheduleNotification } = useNotification();
   const flexibleWidth = useWidth();
-
-  const animatedValue = useSharedValue(-32);
-  const animatedStyle = useAnimatedStyle(() => {
-    return {
-      transform: [{ translateX: animatedValue.value }],
-    };
-  });
 
   return (
     <View style={[styles.continer, { paddingTop: top, width: flexibleWidth, margin: 'auto' }]}>
+      <Links />
+
+      <Button onPress={requestPermissions} rounded={'$xl'}>
+        <ButtonText>Request Push Notification</ButtonText>
+      </Button>
+      <Button action={'positive'} rounded={'$xl'} disabled={!isNofification} onPress={testScheduleNotification}>
+        <ButtonText>Test Notification</ButtonText>
+      </Button>
+    </View>
+  );
+}
+
+const Links = () => {
+  return (
+    <>
       <Link asChild href='/_sitemap' style={{ display: __DEV__ ? 'flex' : 'none' }}>
         <Pressable>
           {({ pressed }) => (
@@ -57,6 +65,22 @@ export default function Menu() {
         </Pressable>
       </Link>
 
+      <Link asChild href='/setting'>
+        <Pressable>
+          {({ pressed }) => (
+            <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+              <FontAwesome
+                name='info-circle'
+                size={25}
+                color={Colors[useColorScheme() ?? 'light'].text}
+                style={{ marginRight: 15, opacity: pressed ? 0.5 : 1 }}
+              />
+              <Text>Go to Setting</Text>
+            </View>
+          )}
+        </Pressable>
+      </Link>
+
       <Link asChild href='/modal'>
         <Pressable>
           {({ pressed }) => (
@@ -72,24 +96,9 @@ export default function Menu() {
           )}
         </Pressable>
       </Link>
-
-      <ButtonGroup
-        onLayout={() => {
-          animatedValue.value = withRepeat(withTiming(32, { duration: 1000 }), -1, true);
-        }}
-      >
-        <Button bg='$teal500' w='$full' borderRadius={'$full'} onPress={() => router.replace('/(auth)/hero')}>
-          {/* <Button.Spinner /> */}
-          <Animated.View style={[{ flexDirection: 'row' }, animatedStyle]}>
-            <ButtonIcon as={() => <FontAwesome name='sign-out' size={24} color={'#fff'} />} />
-            <ButtonText>Logout</ButtonText>
-            <ButtonIcon as={() => <FontAwesome name='sign-out' size={24} color={'#fff'} />} />
-          </Animated.View>
-        </Button>
-      </ButtonGroup>
-    </View>
+    </>
   );
-}
+};
 
 const styles = StyleSheet.create({
   continer: {

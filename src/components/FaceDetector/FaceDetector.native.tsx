@@ -55,11 +55,11 @@ export default function FaceDetector() {
       return;
     }
     const result = await cameraRef.current.takePictureAsync();
-    console.info({ result });
+    // console.info({ result });
   };
 
   const faceDetectorHandler = async (result: FaceDetectionResult) => {
-    console.info(JSON.stringify(result.faces, null, 2));
+    // console.info(JSON.stringify(result.faces, null, 2));
     setFaces(result.faces as FaceFeature[]);
   };
 
