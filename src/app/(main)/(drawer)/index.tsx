@@ -1,6 +1,8 @@
+import React from 'react';
+
 import { Text, View } from '@/components/Themed';
 import Colors from '@/constants/Colors';
-import { Button } from '@/gluestack-ui/components';
+import { Button, ButtonText, ButtonIcon, ButtonGroup, ButtonSpinner } from '@gluestack-ui/themed';
 import { useWidth } from '@/hooks/useWidth';
 import { FontAwesome } from '@expo/vector-icons';
 import { Link, useRouter } from 'expo-router';
@@ -39,22 +41,6 @@ export default function Menu() {
         </Pressable>
       </Link>
 
-      <Link asChild href='/modal'>
-        <Pressable>
-          {({ pressed }) => (
-            <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-              <FontAwesome
-                name='info-circle'
-                size={25}
-                color={Colors[useColorScheme() ?? 'light'].text}
-                style={{ marginRight: 15, opacity: pressed ? 0.5 : 1 }}
-              />
-              <Text>Go to Modal</Text>
-            </View>
-          )}
-        </Pressable>
-      </Link>
-
       <Link asChild href='/face-detector'>
         <Pressable>
           {({ pressed }) => (
@@ -71,7 +57,23 @@ export default function Menu() {
         </Pressable>
       </Link>
 
-      <Button.Group
+      <Link asChild href='/modal'>
+        <Pressable>
+          {({ pressed }) => (
+            <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+              <FontAwesome
+                name='info-circle'
+                size={25}
+                color={Colors[useColorScheme() ?? 'light'].text}
+                style={{ marginRight: 15, opacity: pressed ? 0.5 : 1 }}
+              />
+              <Text>Go to Modal</Text>
+            </View>
+          )}
+        </Pressable>
+      </Link>
+
+      <ButtonGroup
         onLayout={() => {
           animatedValue.value = withRepeat(withTiming(32, { duration: 1000 }), -1, true);
         }}
@@ -79,16 +81,12 @@ export default function Menu() {
         <Button bg='$teal500' w='$full' borderRadius={'$full'} onPress={() => router.replace('/(auth)/hero')}>
           {/* <Button.Spinner /> */}
           <Animated.View style={[{ flexDirection: 'row' }, animatedStyle]}>
-            <Button.Icon as={() => <FontAwesome name='sign-out' size={24} color={'#fff'} />} />
-            <Button.Icon as={() => <FontAwesome name='sign-out' size={24} color={'#fff'} />} />
-            <Button.Icon as={() => <FontAwesome name='sign-out' size={24} color={'#fff'} />} />
-            <Button.Text>Logout</Button.Text>
-            <Button.Icon as={() => <FontAwesome name='sign-out' size={24} color={'#fff'} />} />
-            <Button.Icon as={() => <FontAwesome name='sign-out' size={24} color={'#fff'} />} />
-            <Button.Icon as={() => <FontAwesome name='sign-out' size={24} color={'#fff'} />} />
+            <ButtonIcon as={() => <FontAwesome name='sign-out' size={24} color={'#fff'} />} />
+            <ButtonText>Logout</ButtonText>
+            <ButtonIcon as={() => <FontAwesome name='sign-out' size={24} color={'#fff'} />} />
           </Animated.View>
         </Button>
-      </Button.Group>
+      </ButtonGroup>
     </View>
   );
 }

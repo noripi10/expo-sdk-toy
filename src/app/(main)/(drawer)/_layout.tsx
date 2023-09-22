@@ -11,9 +11,6 @@ export default function AppLayout() {
       <Drawer>
         <Drawer.Screen name='index' options={{ headerTitle: 'Expo SDK Toy' }} />
         <Drawer.Screen name='face-detector' options={{ headerShown: true, headerTitle: 'Face Detector' }} />
-
-        <Drawer.Screen name='modal' options={{ headerTitle: 'Modal' }} />
-        {/* <Stack.Screen name='modal' options={{ presentation: 'modal', headerTitle: 'Modal' }} /> */}
       </Drawer>
     </ThemeProvider>
   );

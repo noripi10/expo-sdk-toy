@@ -9,7 +9,7 @@ export default function SignIn() {
       <>
         <Text style={{ fontSize: 32, fontWeight: 'bold' }}>Sign-In Page</Text>
         <Pressable onPress={() => router.replace('/')}>
-          {() => <Text style={{ fontSize: 18, textDecorationLine: 'underline' }}>Go To App</Text>}
+          {() => <Text style={{ fontSize: 18, textDecorationLine: 'underline' }}>Go To Home Screen</Text>}
         </Pressable>
       </>
     </View>

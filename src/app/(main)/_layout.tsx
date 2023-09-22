@@ -13,7 +13,7 @@ export default function TabsLayout() {
   return (
     <ThemeProvider value={colorSchema === 'dark' ? DarkTheme : DefaultTheme}>
       <Tabs screenOptions={{ headerShown: false }}>
-        <Tabs.Screen name='(main-stack)' options={{ tabBarIcon: (props) => <FontAwesome name='home' {...props} /> }} />
+        <Tabs.Screen name='(drawer)' options={{ tabBarIcon: (props) => <FontAwesome name='home' {...props} /> }} />
         <Tabs.Screen name='two' options={{ tabBarIcon: (props) => <FontAwesome name='apple' {...props} /> }} />
         <Tabs.Screen name='three' options={{ tabBarIcon: (props) => <FontAwesome name='android' {...props} /> }} />
       </Tabs>

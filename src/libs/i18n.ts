@@ -5,7 +5,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 
 export const i18n = new I18n({
   en: { welcome: 'Hello' },
-  ja: { welcome: 'Konnitiwa' },
+  ja: { welcome: 'ハロー' },
 });
 
 export const t = (scope: string, options?: TranslateOptions) => {

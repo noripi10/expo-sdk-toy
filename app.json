@@ -10,7 +10,7 @@
     "splash": {
       "image": "./assets/images/splash.png",
       "resizeMode": "contain",
-      "backgroundColor": "#ffffff"
+      "backgroundColor": "#1a1a1a"
     },
     "assetBundlePatterns": ["**/*"],
     "ios": {
@@ -20,7 +20,7 @@
     "android": {
       "adaptiveIcon": {
         "foregroundImage": "./assets/images/adaptive-icon.png",
-        "backgroundColor": "#ffffff"
+        "backgroundColor": "#1a1a1a"
       },
       "permissions": ["android.permission.CAMERA", "android.permission.RECORD_AUDIO"]
     },
@@ -40,13 +40,9 @@
       ]
     ],
     "experiments": {
-      "tsconfigPaths": true,
-      "typedRoutes": true
+      "tsconfigPaths": true
     },
     "extra": {
-      "router": {
-        "origin": false
-      },
       "eas": {
         "projectId": "c22e676c-e7a1-44f3-828a-1f8e3ab0ba9d"
       }

@@ -1,9 +1,10 @@
-import { config } from '@/gluestack-ui.config';
-import { GluestackUIProvider } from '@/gluestack-ui/components';
-import FontAwesome from '@expo/vector-icons/FontAwesome';
-import { useFonts } from 'expo-font';
-import { Slot, SplashScreen } from 'expo-router';
 import { useEffect } from 'react';
+
+import { Slot, SplashScreen } from 'expo-router';
+import { useFonts } from 'expo-font';
+import FontAwesome from '@expo/vector-icons/FontAwesome';
+
+import { GluestackUIProvider, config } from '@gluestack-ui/themed';
 
 export {
   // Catch any errors thrown by the Layout component.
@@ -20,7 +21,7 @@ SplashScreen.preventAutoHideAsync();
 
 export default function RootLayout() {
   const [loaded, error] = useFonts({
-    SpaceMono: require('../assets/fonts/SpaceMono-Regular.ttf'),
+    SpaceMono: require('@assets/fonts/SpaceMono-Regular.ttf'),
     ...FontAwesome.font,
   });
 
