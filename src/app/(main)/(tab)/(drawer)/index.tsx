@@ -1,20 +1,27 @@
-import React from 'react';
+import React, { useLayoutEffect, useState } from 'react';
 import { Pressable, StyleSheet, useColorScheme } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { Link } from 'expo-router';
 import { FontAwesome } from '@expo/vector-icons';
 
-import { Button, ButtonText } from '@gluestack-ui/themed';
+import { Alert, AlertIcon, AlertText, Button, ButtonText, InfoIcon, BellIcon } from '@gluestack-ui/themed';
 import { View, Text } from '@/components/Themed';
 import Colors from '@/constants/Colors';
 import { useWidth } from '@/hooks/useWidth';
 import { useNotification } from '@/hooks/useNotification';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 export default function Menu() {
   const { top } = useSafeAreaInsets();
 
-  const { requestPermissions, isNofification, testScheduleNotification } = useNotification();
+  const { expoPushToken, requestPermissions, isNofification, testScheduleNotification } = useNotification();
   const flexibleWidth = useWidth();
+
+  const [notificationResult, setNotificationResult] = useState<string | null>(null);
+
+  useLayoutEffect(() => {
+    AsyncStorage.getItem('BACKGROUND-NOTIFICATION-TASK').then((d) => setNotificationResult(d));
+  });
 
   return (
     <View style={[styles.continer, { paddingTop: top, width: flexibleWidth, margin: 'auto' }]}>
@@ -26,6 +33,16 @@ export default function Menu() {
       <Button action={'positive'} rounded={'$xl'} disabled={!isNofification} onPress={testScheduleNotification}>
         <ButtonText>Test Notification</ButtonText>
       </Button>
+
+      <Alert action='info' borderRadius={'$lg'}>
+        <AlertIcon as={InfoIcon} mr='$2' />
+        <AlertText fontSize={'$md'}>{expoPushToken}</AlertText>
+      </Alert>
+
+      <Alert action='success' borderRadius={'$lg'}>
+        <AlertIcon as={BellIcon} mr='$2' />
+        <AlertText fontSize={'$md'}>{notificationResult}</AlertText>
+      </Alert>
     </View>
   );
 }

@@ -9,9 +9,11 @@ import FontAwesome from '@expo/vector-icons/FontAwesome';
 import { GluestackUIProvider, config } from '@gluestack-ui/themed';
 import { DarkTheme, DefaultTheme, ThemeProvider } from '@react-navigation/native';
 
+import { ProtectedProvider } from '@/context/Protected';
+
 // ★ SetUp Task Manager ★
 import '@/libs/task';
-import { ProtectedProvider } from '@/context/Protected';
+import { UpdateView } from '@/components/UpdateView';
 
 export {
   // Catch any errors thrown by the Layout component.
@@ -83,6 +85,7 @@ export default function RootLayout() {
     <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
       <GluestackUIProvider config={config.theme} colorMode={colorScheme === 'dark' ? 'dark' : 'light'}>
         <ProtectedProvider>
+          <UpdateView />
           <Slot />
         </ProtectedProvider>
       </GluestackUIProvider>
