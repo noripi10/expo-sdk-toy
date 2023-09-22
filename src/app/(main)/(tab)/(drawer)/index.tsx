@@ -30,7 +30,7 @@ export default function Menu() {
       <Button onPress={requestPermissions} rounded={'$xl'}>
         <ButtonText>Request Push Notification</ButtonText>
       </Button>
-      <Button action={'positive'} rounded={'$xl'} disabled={!isNofification} onPress={testScheduleNotification}>
+      <Button action={'negative'} rounded={'$xl'} disabled={!isNofification} onPress={testScheduleNotification}>
         <ButtonText>Test Notification</ButtonText>
       </Button>
 

@@ -3,7 +3,7 @@ import Animated, { useAnimatedStyle, useSharedValue, withRepeat, withTiming } fr
 import { useRouter } from 'expo-router';
 import { FontAwesome } from '@expo/vector-icons';
 
-import { Button, ButtonText, ButtonIcon, ButtonGroup, ButtonSpinner } from '@gluestack-ui/themed';
+import { Button, ButtonText, ButtonIcon, ButtonGroup, ButtonSpinner, Heading } from '@gluestack-ui/themed';
 import { Text, View } from '@/components/Themed';
 import { useAuth } from '@/context/Protected';
 
@@ -19,8 +19,10 @@ export default function Settings() {
     };
   });
   return (
-    <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-      <Text style={{ fontSize: 20 }}>Setting Screen</Text>
+    <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center', padding: 8 }}>
+      <Heading fontSize={'$2xl'} p={'$4'}>
+        Setting Screen
+      </Heading>
 
       <ButtonGroup
         onLayout={() => {

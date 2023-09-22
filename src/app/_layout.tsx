@@ -14,6 +14,7 @@ import { ProtectedProvider } from '@/context/Protected';
 // ★ SetUp Task Manager ★
 import '@/libs/task';
 import { UpdateView } from '@/components/UpdateView';
+import { KeyboardProvider } from 'react-native-keyboard-controller';
 
 export {
   // Catch any errors thrown by the Layout component.
@@ -85,8 +86,13 @@ export default function RootLayout() {
     <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
       <GluestackUIProvider config={config.theme} colorMode={colorScheme === 'dark' ? 'dark' : 'light'}>
         <ProtectedProvider>
-          <UpdateView />
-          <Slot />
+          <KeyboardProvider
+          // statusBarTranslucent
+          // navigationBarTranslucent
+          >
+            <UpdateView />
+            <Slot />
+          </KeyboardProvider>
         </ProtectedProvider>
       </GluestackUIProvider>
     </ThemeProvider>

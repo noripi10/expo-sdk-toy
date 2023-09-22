@@ -1,29 +1,57 @@
-import { KeyboardAvoidingView, StyleSheet } from 'react-native';
+import { StyleSheet } from 'react-native';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import { KeyboardAvoidingView, useKeyboardHandler } from 'react-native-keyboard-controller';
+import { runOnJS, useDerivedValue } from 'react-native-reanimated';
+
+import { Box, Button, ButtonText, Center, Input, InputField } from '@gluestack-ui/themed';
 
 import EditScreenInfo from '@/components/EditScreenInfo';
 import { Text, View } from '@/components/Themed';
-import { Center, Input, InputField } from '@gluestack-ui/themed';
-import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import { useSharedValue } from 'react-native-reanimated';
 
 export default function TabTwoScreen() {
   const { top } = useSafeAreaInsets();
 
+  const progress = useSharedValue(0);
+
+  useKeyboardHandler(
+    {
+      onMove: (e) => {
+        'worklet';
+        progress.value = e.progress;
+      },
+    },
+    []
+  );
+
+  const changeHandler = (val: number) => console.info({ val });
+
+  useDerivedValue(() => runOnJS(changeHandler)(progress.value));
+
   return (
     <KeyboardAvoidingView
-      behavior='padding'
+      behavior='position'
       contentContainerStyle={styles.container}
-      keyboardVerticalOffset={100}
+      // keyboardVerticalOffset={48}
       style={styles.content}
     >
-      <Center flex={1} justifyContent='center' alignItems='center' pt={top}>
-        <Text style={styles.title}>Two</Text>
+      <Box flex={1} alignItems='center' justifyContent='center' pt={top + 32} mx={'$4'}>
+        <Text style={styles.title}>Keyboard Avoiding Controller</Text>
         <View style={styles.separator} lightColor='#eee' darkColor='rgba(255,255,255,0.1)' />
         <EditScreenInfo path='app/(main)/two.tsx' />
 
-        <Input mx={'$4'} borderRadius={'$md'}>
-          <InputField px={'$2'} placeholder='input field' />
-        </Input>
-      </Center>
+        <Center justifyContent='center' alignItems='center'>
+          <Input borderRadius={'$md'}>
+            <InputField px={'$2'} placeholder='input field' />
+          </Input>
+        </Center>
+
+        <Center w='$full' py='$6'>
+          <Button bgColor='$orange500' sx={{ ':active': { bgColor: '$orange400' } }} borderRadius={'$xl'} w={'$full'}>
+            <ButtonText>Submit</ButtonText>
+          </Button>
+        </Center>
+      </Box>
     </KeyboardAvoidingView>
   );
 }

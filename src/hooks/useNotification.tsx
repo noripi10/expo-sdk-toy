@@ -140,7 +140,7 @@ export const useNotification = () => {
 
       registerTestCategory();
     })();
-  }, []);
+  }, [expoPushToken]);
 
   return { expoPushToken, isNofification, requestPermissions, testScheduleNotification };
 };
