@@ -10,8 +10,11 @@ export default function TabsLayout() {
   return (
     <Tabs screenOptions={{ headerShown: false }}>
       <Tabs.Screen name='(drawer)' options={{ tabBarIcon: (props) => <FontAwesome name='home' {...props} /> }} />
-      <Tabs.Screen name='two' options={{ tabBarIcon: (props) => <FontAwesome name='apple' {...props} /> }} />
-      <Tabs.Screen name='three' options={{ tabBarIcon: (props) => <FontAwesome name='android' {...props} /> }} />
+      <Tabs.Screen
+        name='keyboard-provider'
+        options={{ tabBarIcon: (props) => <FontAwesome name='keyboard-o' {...props} /> }}
+      />
+      <Tabs.Screen name='skia' options={{ tabBarIcon: (props) => <FontAwesome name='500px' {...props} /> }} />
     </Tabs>
   );
 }

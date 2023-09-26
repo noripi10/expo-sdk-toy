@@ -26,8 +26,6 @@ export const ProtectedProvider = ({ children }: PropsWithChildren) => {
   });
 
   useEffect(() => {
-    console.info(segments);
-
     const segment = segments[0];
     if (segment !== '(auth)' && !user) {
       router.replace('/(auth)/hero');

@@ -14,10 +14,14 @@ export const useCustomColorScheme = () => {
     });
   }, []);
 
-  const changeCustomScheme = (newColorScheme: ColorSchemeName) => {
-    AsyncStorage.setItem('@color-scheme', newColorScheme ?? '');
-    setCustomColorScheme(newColorScheme);
+  const changeCustomScheme = async (newColorScheme: ColorSchemeName) => {
+    try {
+      setCustomColorScheme(newColorScheme);
+      await AsyncStorage.setItem('@color-scheme', newColorScheme ?? '');
+    } catch (error) {
+      console.error('useCustomColorScheme', error);
+    }
   };
 
-  return { nativeColorScheme, customColorScheme, changeCustomScheme };
+  return { customColorScheme, changeCustomScheme };
 };

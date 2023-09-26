@@ -1,4 +1,4 @@
-import React, { useLayoutEffect, useState } from 'react';
+import React, { useContext, useLayoutEffect, useState } from 'react';
 import { Pressable, StyleSheet } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { Link } from 'expo-router';
@@ -10,7 +10,7 @@ import Colors from '@/constants/Colors';
 import { useWidth } from '@/hooks/useWidth';
 import { useNotification } from '@/hooks/useNotification';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { useCustomColorScheme } from '@/hooks/useCustomColorScheme';
+import { CustomThemeContext } from '@/context/Theme';
 
 export default function Menu() {
   const { top } = useSafeAreaInsets();
@@ -49,7 +49,7 @@ export default function Menu() {
 }
 
 const Links = () => {
-  const { customColorScheme } = useCustomColorScheme();
+  const { customColorScheme } = useContext(CustomThemeContext);
 
   return (
     <>

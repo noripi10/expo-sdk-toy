@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { PropsWithChildren, useContext, useEffect } from 'react';
 
 import * as Notifications from 'expo-notifications';
 import { Slot, SplashScreen, useRouter } from 'expo-router';
@@ -9,13 +9,13 @@ import { GluestackUIProvider, config } from '@gluestack-ui/themed';
 import { DarkTheme, DefaultTheme, ThemeProvider } from '@react-navigation/native';
 
 import { ProtectedProvider } from '@/context/Protected';
-import { useCustomColorScheme } from '@/hooks/useCustomColorScheme';
 
 import { UpdateView } from '@/components/UpdateView';
 import { KeyboardProvider } from 'react-native-keyboard-controller';
 
 // ★ SetUp Task Manager ★
 import '@/libs/task';
+import { CustomThemeContext, CustomThemeProvider } from '@/context/Theme';
 
 export {
   // Catch any errors thrown by the Layout component.
@@ -30,9 +30,9 @@ export const unstable_settings = {
 // Prevent the splash screen from auto-hiding before asset loading is complete.
 SplashScreen.preventAutoHideAsync();
 
-export default function RootLayout() {
+function RootLayout() {
   const router = useRouter();
-  const { customColorScheme } = useCustomColorScheme();
+  const { customColorScheme } = useContext(CustomThemeContext);
 
   const [loaded, error] = useFonts({
     SpaceMono: require('@assets/fonts/SpaceMono-Regular.ttf'),
@@ -45,10 +45,10 @@ export default function RootLayout() {
   }, [error]);
 
   useEffect(() => {
-    if (loaded) {
+    if (loaded && customColorScheme) {
       SplashScreen.hideAsync();
     }
-  }, [loaded]);
+  }, [loaded, customColorScheme]);
 
   useEffect(() => {
     let isMounted = true;
@@ -79,7 +79,7 @@ export default function RootLayout() {
     };
   }, []);
 
-  if (!loaded) {
+  if (!loaded || !customColorScheme) {
     return null;
   }
 
@@ -97,5 +97,13 @@ export default function RootLayout() {
         </ProtectedProvider>
       </GluestackUIProvider>
     </ThemeProvider>
+  );
+}
+
+export default function CustomThemeWrapper() {
+  return (
+    <CustomThemeProvider>
+      <RootLayout />
+    </CustomThemeProvider>
   );
 }

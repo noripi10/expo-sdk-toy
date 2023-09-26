@@ -24,9 +24,9 @@ export default function TabTwoScreen() {
     []
   );
 
-  const changeHandler = (val: number) => console.info({ val });
-
-  useDerivedValue(() => runOnJS(changeHandler)(progress.value));
+  // Keyboardの高さを監視する
+  // const changeHandler = (val: number) => console.info({ val });
+  // useDerivedValue(() => runOnJS(changeHandler)(progress.value));
 
   return (
     <KeyboardAvoidingView
