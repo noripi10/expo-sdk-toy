@@ -1,15 +1,17 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { ReactNode, useEffect, useRef, useState } from 'react';
 import { StyleSheet, Pressable } from 'react-native';
 
 import { MaterialIcons } from '@expo/vector-icons';
 
-import { Camera, CameraType, FaceDetectionResult, Point } from 'expo-camera';
+import { useIsFocused } from '@react-navigation/native';
+import Animated from 'react-native-reanimated';
+import { Camera, CameraType, FaceDetectionResult } from 'expo-camera';
 import * as Device from 'expo-device';
-import { Text, View } from '../Themed';
 import * as ExpoFaceDetector from 'expo-face-detector';
 import { FaceFeature } from 'expo-face-detector';
-import Animated from 'react-native-reanimated';
-import { useIsFocused } from '@react-navigation/native';
+
+import { keyMapping } from '@/libs/object';
+import { Text, View } from '../Themed';
 
 export default function FaceDetector() {
   const [status, requestPermission] = Camera.useCameraPermissions();
@@ -106,13 +108,12 @@ export default function FaceDetector() {
                   borderColor: 'rgba(0, 255, 225, 1)',
                 }}
               />
-              {Object.keys(face).map((pos) => {
+              {keyMapping(face).map((pos) => {
                 if (!pos.includes('Position')) {
                   return <React.Fragment key={pos} />;
                 }
+                const point = face[pos] as ExpoFaceDetector.Point;
 
-                // @ts-ignore
-                const point = face[pos] as Point;
                 return (
                   <Animated.View
                     key={pos}
