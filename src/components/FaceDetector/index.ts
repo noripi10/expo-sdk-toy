@@ -3,4 +3,4 @@ import FaceDetecterWeb from './FaceDetector.web';
 import FaceDetectorNative from './FaceDetector.native';
 
 const FaceDetector = Platform.OS === 'web' ? FaceDetecterWeb : FaceDetectorNative;
-export default FaceDetectorNative;
+export default FaceDetector;

@@ -1,7 +1,6 @@
 import { FontAwesome } from '@expo/vector-icons';
 import { DarkTheme, DefaultTheme, TabRouter, ThemeProvider } from '@react-navigation/native';
 import { Navigator, Tabs } from 'expo-router';
-import { useColorScheme } from 'react-native';
 
 export const unstable_settings = {
   initialRouteName: '(main-stack)',

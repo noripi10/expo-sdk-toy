@@ -1,5 +1,5 @@
 import React, { useLayoutEffect, useState } from 'react';
-import { Pressable, StyleSheet, useColorScheme } from 'react-native';
+import { Pressable, StyleSheet } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { Link } from 'expo-router';
 import { FontAwesome } from '@expo/vector-icons';
@@ -10,6 +10,7 @@ import Colors from '@/constants/Colors';
 import { useWidth } from '@/hooks/useWidth';
 import { useNotification } from '@/hooks/useNotification';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { useCustomColorScheme } from '@/hooks/useCustomColorScheme';
 
 export default function Menu() {
   const { top } = useSafeAreaInsets();
@@ -28,10 +29,10 @@ export default function Menu() {
       <Links />
 
       <Button onPress={requestPermissions} rounded={'$xl'}>
-        <ButtonText>Request Push Notification</ButtonText>
+        <ButtonText>Request Push Notification Token</ButtonText>
       </Button>
       <Button action={'negative'} rounded={'$xl'} disabled={!isNofification} onPress={testScheduleNotification}>
-        <ButtonText>Test Notification</ButtonText>
+        <ButtonText>Test Push Notification</ButtonText>
       </Button>
 
       <Alert action='info' borderRadius={'$lg'}>
@@ -48,6 +49,8 @@ export default function Menu() {
 }
 
 const Links = () => {
+  const { customColorScheme } = useCustomColorScheme();
+
   return (
     <>
       <Link asChild href='/_sitemap' style={{ display: __DEV__ ? 'flex' : 'none' }}>
@@ -57,7 +60,7 @@ const Links = () => {
               <FontAwesome
                 name='info-circle'
                 size={25}
-                color={Colors[useColorScheme() ?? 'light'].text}
+                color={Colors[customColorScheme ?? 'light'].text}
                 style={{ marginRight: 15, opacity: pressed ? 0.5 : 1 }}
               />
               <Text>Go to SiteMap</Text>
@@ -73,7 +76,7 @@ const Links = () => {
               <FontAwesome
                 name='info-circle'
                 size={25}
-                color={Colors[useColorScheme() ?? 'light'].text}
+                color={Colors[customColorScheme ?? 'light'].text}
                 style={{ marginRight: 15, opacity: pressed ? 0.5 : 1 }}
               />
               <Text>Go to Face-Detector</Text>
@@ -89,7 +92,7 @@ const Links = () => {
               <FontAwesome
                 name='info-circle'
                 size={25}
-                color={Colors[useColorScheme() ?? 'light'].text}
+                color={Colors[customColorScheme ?? 'light'].text}
                 style={{ marginRight: 15, opacity: pressed ? 0.5 : 1 }}
               />
               <Text>Go to Setting</Text>
@@ -105,7 +108,7 @@ const Links = () => {
               <FontAwesome
                 name='info-circle'
                 size={25}
-                color={Colors[useColorScheme() ?? 'light'].text}
+                color={Colors[customColorScheme ?? 'light'].text}
                 style={{ marginRight: 15, opacity: pressed ? 0.5 : 1 }}
               />
               <Text>Go to Modal</Text>

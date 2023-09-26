@@ -1,5 +1,4 @@
 import { useEffect } from 'react';
-import { useColorScheme } from 'react-native';
 
 import * as Notifications from 'expo-notifications';
 import { Slot, SplashScreen, useRouter } from 'expo-router';
@@ -10,11 +9,13 @@ import { GluestackUIProvider, config } from '@gluestack-ui/themed';
 import { DarkTheme, DefaultTheme, ThemeProvider } from '@react-navigation/native';
 
 import { ProtectedProvider } from '@/context/Protected';
+import { useCustomColorScheme } from '@/hooks/useCustomColorScheme';
+
+import { UpdateView } from '@/components/UpdateView';
+import { KeyboardProvider } from 'react-native-keyboard-controller';
 
 // ★ SetUp Task Manager ★
 import '@/libs/task';
-import { UpdateView } from '@/components/UpdateView';
-import { KeyboardProvider } from 'react-native-keyboard-controller';
 
 export {
   // Catch any errors thrown by the Layout component.
@@ -31,7 +32,7 @@ SplashScreen.preventAutoHideAsync();
 
 export default function RootLayout() {
   const router = useRouter();
-  const colorScheme = useColorScheme();
+  const { customColorScheme } = useCustomColorScheme();
 
   const [loaded, error] = useFonts({
     SpaceMono: require('@assets/fonts/SpaceMono-Regular.ttf'),
@@ -83,8 +84,8 @@ export default function RootLayout() {
   }
 
   return (
-    <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
-      <GluestackUIProvider config={config.theme} colorMode={colorScheme === 'dark' ? 'dark' : 'light'}>
+    <ThemeProvider value={customColorScheme === 'dark' ? DarkTheme : DefaultTheme}>
+      <GluestackUIProvider config={config.theme} colorMode={customColorScheme === 'dark' ? 'dark' : 'light'}>
         <ProtectedProvider>
           <KeyboardProvider
           // statusBarTranslucent

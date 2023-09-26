@@ -1,7 +1,4 @@
-import { DarkTheme, DefaultTheme, ThemeProvider } from '@react-navigation/native';
-import { Stack } from 'expo-router';
 import { Drawer } from 'expo-router/drawer';
-import { useColorScheme } from 'react-native';
 
 export default function AppLayout() {
   return (
