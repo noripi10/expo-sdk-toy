@@ -6,7 +6,7 @@ import { useFonts } from 'expo-font';
 import FontAwesome from '@expo/vector-icons/FontAwesome';
 
 import { GluestackUIProvider, config } from '@gluestack-ui/themed';
-import { DarkTheme, DefaultTheme, ThemeProvider } from '@react-navigation/native';
+import { DarkTheme, DefaultTheme, ThemeProvider as NavigationThemeProvider } from '@react-navigation/native';
 
 import { ProtectedProvider } from '@/context/Protected';
 
@@ -84,7 +84,7 @@ function RootLayout() {
   }
 
   return (
-    <ThemeProvider value={customColorScheme === 'dark' ? DarkTheme : DefaultTheme}>
+    <NavigationThemeProvider value={customColorScheme === 'dark' ? DarkTheme : DefaultTheme}>
       <GluestackUIProvider config={config.theme} colorMode={customColorScheme === 'dark' ? 'dark' : 'light'}>
         <ProtectedProvider>
           <KeyboardProvider
@@ -96,7 +96,7 @@ function RootLayout() {
           </KeyboardProvider>
         </ProtectedProvider>
       </GluestackUIProvider>
-    </ThemeProvider>
+    </NavigationThemeProvider>
   );
 }
 
