@@ -1,0 +1,7 @@
+appId: com.hiroapp.exposdktoy
+---
+- launchApp
+
+- tapOn: 'Request Push Notification Token'
+
+- tapOn: ' Go to Setting'
