@@ -31,12 +31,14 @@ export const CustomThemeProvider = ({ children }: PropsWithChildren) => {
   const transition = useSharedValue(0);
 
   const r = useDerivedValue(() => {
-    return mix(transition.value, 0, circle.value.r);
+    const animatedR = mix(transition.value, 0, circle.value.r);
+    return animatedR;
   });
 
   return (
     <View style={{ flex: 1 }}>
       <StatusBar style={customColorScheme === 'dark' ? 'light' : 'dark'} />
+
       <View ref={ref} style={{ flex: 1 }} collapsable={false}>
         <CustomThemeContext.Provider
           value={{ customColorScheme, changeCustomScheme, ref, setOverlay1, setOverlay2, circle, transition }}
@@ -47,7 +49,7 @@ export const CustomThemeProvider = ({ children }: PropsWithChildren) => {
       <Canvas style={StyleSheet.absoluteFill} pointerEvents='none'>
         <Image image={overlay1} x={0} y={0} width={width} height={height} />
         {overlay2 && (
-          <Circle c={circle} r={r}>
+          <Circle c={circle.value} r={r}>
             <ImageShader image={overlay2} x={0} y={0} width={width} height={height} fit='cover' />
           </Circle>
         )}

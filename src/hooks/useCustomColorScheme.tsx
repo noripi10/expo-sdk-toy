@@ -8,7 +8,6 @@ export const useCustomColorScheme = () => {
 
   useEffect(() => {
     AsyncStorage.getItem('@color-scheme').then((result) => {
-      console.info({ result });
       if (result) {
         setCustomColorScheme((result ?? nativeColorScheme ?? 'light') as ColorSchemeName);
       } else {

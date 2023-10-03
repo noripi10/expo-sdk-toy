@@ -4,7 +4,7 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { Link } from 'expo-router';
 import { FontAwesome } from '@expo/vector-icons';
 
-import { Alert, AlertIcon, AlertText, Button, ButtonText, InfoIcon, BellIcon } from '@gluestack-ui/themed';
+import { Alert, AlertIcon, AlertText, Button, ButtonText, InfoIcon, BellIcon, SunIcon } from '@gluestack-ui/themed';
 import { View, Text } from '@/components/Themed';
 import Colors from '@/constants/Colors';
 import { useWidth } from '@/hooks/useWidth';
@@ -15,6 +15,7 @@ import { CustomThemeContext } from '@/context/Theme';
 export default function Menu() {
   const { top } = useSafeAreaInsets();
 
+  const { customColorScheme } = useContext(CustomThemeContext);
   const { expoPushToken, requestPermissions, isNofification, testScheduleNotification } = useNotification();
   const flexibleWidth = useWidth();
 
@@ -43,6 +44,13 @@ export default function Menu() {
       <Alert action='success' borderRadius={'$lg'}>
         <AlertIcon as={BellIcon} mr='$2' />
         <AlertText fontSize={'$md'}>{notificationResult}</AlertText>
+      </Alert>
+
+      <Alert action='warning' borderRadius={'$lg'}>
+        <AlertIcon as={SunIcon} mr='$2' />
+        <AlertText fontSize={'$md'} textTransform='uppercase'>
+          {customColorScheme ? `theme: ${customColorScheme}` : ''}
+        </AlertText>
       </Alert>
     </View>
   );

@@ -15,6 +15,7 @@ export default function TabsLayout() {
         options={{ tabBarIcon: (props) => <FontAwesome name='keyboard-o' {...props} /> }}
       />
       <Tabs.Screen name='skia' options={{ tabBarIcon: (props) => <FontAwesome name='500px' {...props} /> }} />
+      <Tabs.Screen name='gesture' options={{ tabBarIcon: (props) => <FontAwesome name='hand-grab-o' {...props} /> }} />
     </Tabs>
   );
 }
