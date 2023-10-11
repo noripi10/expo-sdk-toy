@@ -9,7 +9,7 @@ import EditScreenInfo from '@/components/EditScreenInfo';
 import { Text, View } from '@/components/Themed';
 import { useSharedValue } from 'react-native-reanimated';
 
-export default function TabTwoScreen() {
+export default function KeyboardPage() {
   const { top } = useSafeAreaInsets();
 
   const progress = useSharedValue(0);

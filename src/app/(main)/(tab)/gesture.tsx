@@ -7,7 +7,7 @@ import { Button, ButtonText } from '@gluestack-ui/themed';
 
 const SIZE = 120;
 
-export default function App() {
+export default function GesturePage() {
   const { width, height } = useWindowDimensions();
   const inset = useSafeAreaInsets();
   // const tabHeight = useBottomTabBarHeight();
@@ -16,6 +16,8 @@ export default function App() {
   const offsetX = useSharedValue(0);
   const offsetY = useSharedValue(0);
 
+  // clamp は移動可能なmin, maxを設定する
+  // この閾値を超えたら位置を戻す(rubberBandEffect)
   const pan = Gesture.Pan()
     .onChange((event) => {
       offsetX.value += event.changeX;
@@ -69,7 +71,7 @@ const styles = StyleSheet.create({
   box: {
     height: SIZE,
     width: SIZE,
-    backgroundColor: '#b58df1',
+    backgroundColor: '#4d69b0',
     borderRadius: 400,
     cursor: 'grab',
     alignItems: 'center',

@@ -64,10 +64,10 @@ import { Canvas, Circle, Fill } from '@shopify/react-native-skia';
 import { GestureDetector, Gesture } from 'react-native-gesture-handler';
 import { useSharedValue, withDecay } from 'react-native-reanimated';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import { useBottomTabBarHeight } from '@react-navigation/bottom-tabs';
-export default function AnimationWithTouchHandler() {
+// import { useBottomTabBarHeight } from '@react-navigation/bottom-tabs';
+export default function SkiaPage() {
   const { width, height } = useWindowDimensions();
-  const tabHeight = useBottomTabBarHeight();
+  // const tabHeight = useBottomTabBarHeight();
 
   const { top } = useSafeAreaInsets();
   const leftBoundary = 0;
@@ -88,7 +88,7 @@ export default function AnimationWithTouchHandler() {
       translateY.value = withDecay({
         velocity: e.velocityY,
         rubberBandEffect: true,
-        clamp: [top, height - tabHeight - 20],
+        clamp: [top, height - 20], // - tabbarHeightを入れたいけどエラーになる
       });
     });
   return (

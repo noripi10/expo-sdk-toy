@@ -1,14 +1,34 @@
 import { ThemeSwitch } from '@/components/ThemeSwitch';
-import { Box, Text } from '@gluestack-ui/themed';
+import { MaterialIcons } from '@expo/vector-icons';
+import { Box, Center, Text } from '@gluestack-ui/themed';
 import { DrawerContentScrollView, DrawerItemList, DrawerView } from '@react-navigation/drawer';
+import { DrawerActions } from '@react-navigation/native';
+import { useNavigation } from 'expo-router';
 import { Drawer } from 'expo-router/drawer';
+import { Pressable } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 export default function AppLayout() {
   const insets = useSafeAreaInsets();
+  const navigation = useNavigation();
 
   return (
     <Drawer
+      screenOptions={{
+        drawerPosition: 'right',
+        headerLeft: (props) => undefined,
+        headerRight: (props) => (
+          <Center p={'$2'} mr={'$4'} mb={'$2'} bgColor='#333' borderRadius={'$full'}>
+            <Pressable
+              onPress={() => {
+                navigation.dispatch(DrawerActions.openDrawer);
+              }}
+            >
+              <MaterialIcons name='menu-open' color={'#fff'} size={20} />
+            </Pressable>
+          </Center>
+        ),
+      }}
       drawerContent={(props) => {
         return (
           <>
