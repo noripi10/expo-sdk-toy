@@ -11,7 +11,7 @@
     "test": "jest --watchAll",
     "sharp": "ts-node --project tsconfig.dev.json sharp.ts",
     "plop": "plop",
-    "maestro:ios": "maestro test .maestro/ios-flow/yml",
+    "maestro:ios": "maestro test .maestro/ios-flow.yml",
     "maestro:studio": "maestro studio"
   },
   "jest": {

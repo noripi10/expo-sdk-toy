@@ -1,5 +1,5 @@
 import { Box, Button, ButtonText, Center, Text } from '@gluestack-ui/themed';
-import { useRef, useState } from 'react';
+import { memo, useEffect, useRef, useState } from 'react';
 import { DimensionValue, Dimensions, FlatList, ScrollView, StyleSheet } from 'react-native';
 import MapView, { LatLng, Marker, Region } from 'react-native-maps';
 
@@ -8,6 +8,17 @@ import { useClusterer, type supercluster } from 'react-native-clusterer';
 import { GifuStations, StationProp } from '@/constants/map';
 import { MapDimensions } from 'react-native-clusterer/lib/typescript/types';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import Animated, {
+  Easing,
+  FadeIn,
+  FadeInUp,
+  FadeOut,
+  cancelAnimation,
+  useAnimatedStyle,
+  useSharedValue,
+  withRepeat,
+  withTiming,
+} from 'react-native-reanimated';
 
 type GeoJson = supercluster.PointFeature<GeoJsonProperties> | supercluster.ClusterFeatureClusterer<GeoJsonProperties>;
 const toGeoJson = (stationProps: StationProp): GeoJson => ({
@@ -40,7 +51,7 @@ export default function MayPage() {
     longitudeDelta: 0.0421,
   });
 
-  const [detail, setDetail] = useState<GeoJson[]>();
+  const [markerDetail, setMarkerDetail] = useState<GeoJson[]>();
 
   const [points, supercluster] = useClusterer(gifuStationGeoJsons, mapLayout, region);
 
@@ -58,22 +69,6 @@ export default function MayPage() {
         return getClusterPoints(p);
       })
       .flatMap((e) => e);
-  };
-
-  const getMarkerSize = (count: number): DimensionValue => {
-    if (count > 100) {
-      return 72;
-    } else if (count > 50) {
-      return 64;
-    } else if (count > 30) {
-      return 56;
-    } else if (count > 20) {
-      return 48;
-    } else if (count > 10) {
-      return 40;
-    } else {
-      return 32;
-    }
   };
 
   return (
@@ -104,92 +99,152 @@ export default function MayPage() {
           // console.info(e.nativeEvent.coordinate);
         }}
       >
-        {points.map((p, i) => {
-          const stringCount = String(p.properties?.point_count ?? '1');
-          const count = parseInt(stringCount, 10);
+        {points.map((p, i) => (
+          <ClustererMarker
+            key={i.toString()}
+            p={p}
+            marker={marker}
+            onPressMarker={() => {
+              const stringCount = String(p.properties?.point_count ?? '1');
+              const count = parseInt(stringCount, 10);
+              // marker point
+              setMarker({ latitude: p.geometry.coordinates[1], longitude: p.geometry.coordinates[0] });
 
-          // latitude: p.geometry.coordinates[1], longitude: p.geometry.coordinates[0]
-          const isSelected =
-            marker?.latitude === p.geometry.coordinates[1] && marker.longitude === p.geometry.coordinates[0];
+              // flat marker data
+              if (count === 1) {
+                setMarkerDetail([p]);
+              } else {
+                const result = getClusterPoints(p);
+                setMarkerDetail(result);
+              }
 
-          return (
-            <Marker
-              key={i.toString()}
-              coordinate={{
+              // set region
+              mapRef.current?.animateToRegion({
+                ...region,
                 latitude: p.geometry.coordinates[1],
                 longitude: p.geometry.coordinates[0],
-              }}
-              onPress={() => {
-                // marker point
-                setMarker({ latitude: p.geometry.coordinates[1], longitude: p.geometry.coordinates[0] });
-                // flat marker data
-                if (count === 1) {
-                  setDetail([p]);
-                } else {
-                  const result = getClusterPoints(p);
-                  console.info('lenght', result.length);
-                  setDetail(result);
-                }
-                // flatlist scroll (first)
-                setTimeout(() => {
-                  flatListRef.current?.scrollToIndex({
-                    animated: true,
-                    index: 0,
-                  });
-                }, 300);
-              }}
-            >
-              <Center
-                flex={1}
-                w={getMarkerSize(count)}
-                h={getMarkerSize(count)}
-                p={'$1'}
-                borderColor='$blue800'
-                borderWidth={'$2'}
-                borderRadius={'$full'}
-                bgColor={isSelected ? '$blue500' : '$blue50'}
-              >
-                <Text color='#000' fontWeight='$bold'>
-                  {stringCount}
-                </Text>
-              </Center>
-            </Marker>
-          );
-        })}
+              });
+
+              // flatlist scroll (first)
+              setTimeout(() => {
+                flatListRef.current?.scrollToIndex({
+                  animated: true,
+                  index: 0,
+                });
+              }, 300);
+            }}
+          />
+        ))}
       </MapView>
       <Box position='absolute' right={12} top={insets.top + 8}>
         <Button onPress={() => setScrollEnabled((p) => !p)} bgColor={scrollEnabled ? '$teal400' : '$red400'}>
           <ButtonText>Toggle Scroll Enable</ButtonText>
         </Button>
       </Box>
-      <Box position='absolute' left={0} right={0} bottom={0} h={'$64'}>
-        <Box position='absolute' style={StyleSheet.absoluteFillObject} bgColor='#000' opacity={0.2} />
-        <FlatList
-          ref={flatListRef}
-          horizontal
-          data={detail}
-          keyExtractor={(item, index) => index.toString()}
-          renderItem={({ item }) => (
-            <Box
-              flex={1}
-              p={'$4'}
-              w={WIDTH * 0.95}
-              maxWidth={400}
-              borderRadius={'$xl'}
-              borderWidth={'$1'}
-              m={'$2'}
-              bg='$backgroundDark800'
-            >
-              <ScrollView>
-                <Text>{JSON.stringify(item)}</Text>
-              </ScrollView>
-            </Box>
-          )}
-        />
-      </Box>
+      {markerDetail && (
+        <Animated.View entering={FadeIn.delay(500)}>
+          <Box position='absolute' left={0} right={0} bottom={0} h={'$64'}>
+            <Box position='absolute' style={StyleSheet.absoluteFillObject} bgColor='#000' opacity={0.2} />
+            <FlatList
+              ref={flatListRef}
+              horizontal
+              data={markerDetail}
+              keyExtractor={(item, index) => index.toString()}
+              renderItem={({ item }) => (
+                <Box
+                  flex={1}
+                  p={'$4'}
+                  w={WIDTH * 0.95}
+                  maxWidth={400}
+                  borderRadius={'$xl'}
+                  borderWidth={'$1'}
+                  m={'$2'}
+                  bg='$backgroundDark800'
+                >
+                  <ScrollView>
+                    <Text>{JSON.stringify(item)}</Text>
+                  </ScrollView>
+                </Box>
+              )}
+            />
+          </Box>
+        </Animated.View>
+      )}
     </Box>
   );
 }
+
+const getMarkerSize = (count: number): DimensionValue => {
+  if (count > 100) {
+    return 72;
+  } else if (count > 50) {
+    return 64;
+  } else if (count > 30) {
+    return 56;
+  } else if (count > 20) {
+    return 48;
+  } else if (count > 10) {
+    return 40;
+  } else {
+    return 32;
+  }
+};
+
+const ClustererMarker = memo(
+  ({ p, marker, onPressMarker }: { p: GeoJson; marker?: LatLng; onPressMarker: () => void }) => {
+    const stringCount = String(p.properties?.point_count ?? '1');
+    const count = parseInt(stringCount, 10);
+    const isSelected = marker?.latitude === p.geometry.coordinates[1] && marker.longitude === p.geometry.coordinates[0];
+
+    const animationValue = useSharedValue(1);
+
+    const animationStyle = useAnimatedStyle(() => {
+      return {
+        transform: [{ scale: animationValue.value }],
+      };
+    });
+
+    useEffect(() => {
+      if (isSelected) {
+        animationValue.value = withRepeat(withTiming(1.15, { duration: 1000, easing: Easing.linear }), -1, true);
+      } else {
+        animationValue.value = 1;
+        cancelAnimation(animationValue);
+      }
+
+      return () => {
+        animationValue.value = 1;
+      };
+    }, [isSelected]);
+
+    return (
+      <Marker
+        coordinate={{
+          latitude: p.geometry.coordinates[1],
+          longitude: p.geometry.coordinates[0],
+        }}
+        onPress={onPressMarker}
+      >
+        <Animated.View style={animationStyle} entering={FadeIn.delay(100)} exiting={FadeOut.delay(100)}>
+          <Center
+            flex={1}
+            w={getMarkerSize(count)}
+            h={getMarkerSize(count)}
+            p={'$1'}
+            borderColor='$blue800'
+            borderWidth={'$2'}
+            borderRadius={'$full'}
+            bgColor={isSelected ? '$blue500' : '$blue50'}
+          >
+            <Text color='#000' fontWeight='$bold'>
+              {stringCount}
+            </Text>
+          </Center>
+        </Animated.View>
+      </Marker>
+    );
+  }
+);
 
 const styles = StyleSheet.create({
   map: {
