@@ -16,6 +16,7 @@ import { KeyboardProvider } from 'react-native-keyboard-controller';
 // ★ SetUp Task Manager ★
 import '@/libs/task';
 import { CustomThemeContext, CustomThemeProvider } from '@/context/Theme';
+import { useUpdateSettings } from '@/hooks/useUpdateSettings';
 
 export {
   // Catch any errors thrown by the Layout component.

@@ -18,6 +18,7 @@
     "preset": "jest-expo"
   },
   "dependencies": {
+    "@config-plugins/apple-settings": "^0.0.5",
     "@expo/vector-icons": "^13.0.0",
     "@gluestack-style/react": "^0.2.51",
     "@gluestack-ui/provider": "latest",

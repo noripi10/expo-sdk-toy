@@ -3,11 +3,23 @@ import Animated, { useAnimatedStyle, useSharedValue, withRepeat, withTiming } fr
 import { useRouter } from 'expo-router';
 import { FontAwesome } from '@expo/vector-icons';
 
-import { Button, ButtonText, ButtonIcon, ButtonGroup, ButtonSpinner, Heading } from '@gluestack-ui/themed';
-import { Text, View } from '@/components/Themed';
+import {
+  Button,
+  ButtonText,
+  ButtonIcon,
+  ButtonGroup,
+  ButtonSpinner,
+  Heading,
+  Switch,
+  Center,
+} from '@gluestack-ui/themed';
+import { View } from '@/components/Themed';
 import { useAuth } from '@/context/Protected';
+import { useUpdateSettings } from '@/hooks/useUpdateSettings';
 
 export default function Settings() {
+  const { setting, globalSetting } = useUpdateSettings();
+
   const router = useRouter();
 
   const { setUser } = useAuth();
@@ -19,10 +31,19 @@ export default function Settings() {
     };
   });
   return (
-    <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center', padding: 8 }}>
+    <View style={{ flex: 1, alignItems: 'center', padding: 8 }}>
       <Heading fontSize={'$2xl'} p={'$4'}>
         Setting Screen
       </Heading>
+
+      <Center p={'$4'}>
+        <Switch
+          value={setting}
+          onToggle={(args) => {
+            globalSetting(args);
+          }}
+        />
+      </Center>
 
       <ButtonGroup
         onLayout={() => {
