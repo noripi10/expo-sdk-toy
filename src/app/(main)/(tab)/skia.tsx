@@ -88,7 +88,7 @@ export default function SkiaPage() {
       translateY.value = withDecay({
         velocity: e.velocityY,
         rubberBandEffect: true,
-        clamp: [top, height - 20], // - tabbarHeightを入れたいけどエラーになる
+        clamp: [top, height - 100], // - tabbarHeightを入れたいけどエラーになる
       });
     });
   return (

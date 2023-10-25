@@ -16,6 +16,7 @@ export default function TabsLayout() {
       />
       <Tabs.Screen name='skia' options={{ tabBarIcon: (props) => <FontAwesome name='500px' {...props} /> }} />
       <Tabs.Screen name='gesture' options={{ tabBarIcon: (props) => <FontAwesome name='hand-grab-o' {...props} /> }} />
+      <Tabs.Screen name='sensor' options={{ tabBarIcon: (props) => <FontAwesome name='send-o' {...props} /> }} />
       <Tabs.Screen name='svg-image' options={{ tabBarIcon: (props) => <FontAwesome name='image' {...props} /> }} />
       <Tabs.Screen name='map' options={{ tabBarIcon: (props) => <FontAwesome name='map' {...props} /> }} />
     </Tabs>

@@ -1,4 +1,4 @@
-import { Box, Button, ButtonText, Center, Text } from '@gluestack-ui/themed';
+import { Box, Button, ButtonText, Center, Pressable, Text } from '@gluestack-ui/themed';
 import { memo, useEffect, useRef, useState } from 'react';
 import { DimensionValue, Dimensions, FlatList, ScrollView, StyleSheet } from 'react-native';
 import MapView, { LatLng, Marker, Region } from 'react-native-maps';
@@ -19,6 +19,7 @@ import Animated, {
   withRepeat,
   withTiming,
 } from 'react-native-reanimated';
+import { FontAwesome } from '@expo/vector-icons';
 
 type GeoJson = supercluster.PointFeature<GeoJsonProperties> | supercluster.ClusterFeatureClusterer<GeoJsonProperties>;
 const toGeoJson = (stationProps: StationProp): GeoJson => ({
@@ -145,28 +146,50 @@ export default function MayPage() {
         <Animated.View entering={FadeIn.delay(500)}>
           <Box position='absolute' left={0} right={0} bottom={0} h={'$64'}>
             <Box position='absolute' style={StyleSheet.absoluteFillObject} bgColor='#000' opacity={0.2} />
-            <FlatList
-              ref={flatListRef}
-              horizontal
-              data={markerDetail}
-              keyExtractor={(item, index) => index.toString()}
-              renderItem={({ item }) => (
-                <Box
-                  flex={1}
-                  p={'$4'}
-                  w={WIDTH * 0.95}
-                  maxWidth={400}
-                  borderRadius={'$xl'}
-                  borderWidth={'$1'}
-                  m={'$2'}
-                  bg='$backgroundDark800'
-                >
-                  <ScrollView>
-                    <Text>{JSON.stringify(item)}</Text>
-                  </ScrollView>
-                </Box>
-              )}
-            />
+            <Box position='relative' flex={1}>
+              <FlatList
+                style={{ flex: 1 }}
+                ref={flatListRef}
+                horizontal
+                data={markerDetail}
+                keyExtractor={(item, index) => index.toString()}
+                renderItem={({ item }) => (
+                  <Box
+                    flex={1}
+                    p={'$4'}
+                    w={WIDTH * 0.95}
+                    maxWidth={400}
+                    borderRadius={'$xl'}
+                    borderWidth={'$1'}
+                    m={'$2'}
+                    bg='$backgroundDark800'
+                  >
+                    <ScrollView>
+                      <Text>{JSON.stringify(item)}</Text>
+                    </ScrollView>
+                  </Box>
+                )}
+              />
+            </Box>
+            <Box position='absolute' top={-14} right={8}>
+              <Pressable
+                borderRadius={'$full'}
+                w={'$10'}
+                h={'$10'}
+                bgColor={'#ccc'}
+                justifyContent='center'
+                alignItems='center'
+                shadowOffset={{ width: 0, height: 1 }}
+                shadowColor={'$amber100'}
+                shadowOpacity={0.5}
+                onPress={() => {
+                  setMarker(undefined);
+                  setMarkerDetail(undefined);
+                }}
+              >
+                <FontAwesome name='close' color={'#000'} size={24} />
+              </Pressable>
+            </Box>
           </Box>
         </Animated.View>
       )}
@@ -206,7 +229,7 @@ const ClustererMarker = memo(
 
     useEffect(() => {
       if (isSelected) {
-        animationValue.value = withRepeat(withTiming(1.15, { duration: 1000, easing: Easing.linear }), -1, true);
+        animationValue.value = withRepeat(withTiming(1.15, { duration: 1000, easing: Easing.steps(5) }), -1, true);
       } else {
         animationValue.value = 1;
         cancelAnimation(animationValue);
