@@ -6,18 +6,24 @@ appId: com.hiroapp.exposdktoy
 
 - tapOn: Go To Home Screen
 
-- tapOn: Request Push Notification Token
+- tapOn:
+    point: 91%,9%
 
-- tapOn: Test Push Notification
+- tapOn:
+    point: 93%,9%
 
-- tapOn: keyboard-provider, tab, 2 of 6
+- tapOn: Close drawer
 
-- tapOn: skia, tab, 3 of 6
+- tapOn: keyboard-provider, tab, 2 of 7
 
-- tapOn: gesture, tab, 4 of 6
+- tapOn: skia, tab, 3 of 7
 
-- tapOn: svg-image, tab, 5 of 6
+- tapOn: gesture, tab, 4 of 7
 
-- tapOn: map, tab, 6 of 6
+- tapOn: sensor, tab, 5 of 7
+
+- tapOn: svg-image, tab, 6 of 7
+
+- tapOn: map, tab, 7 of 7
 
 - tapOn: (drawer), tab, 1 of 6

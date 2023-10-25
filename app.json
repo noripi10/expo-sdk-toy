@@ -17,7 +17,10 @@
       "supportsTablet": true,
       "bundleIdentifier": "com.hiroapp.exposdktoy",
       "infoPlist": {
-        "UIBackgroundModes": ["fetch", "remote-notification", "location"]
+        "UIBackgroundModes": ["fetch", "remote-notification", "location", "audio"],
+        "UIFileSharingEnabled": true,
+        "LSSupportsOpeningDocumentsInPlace": true,
+        "UISupportsDocumentBrowser": true
       }
     },
     "android": {
@@ -35,6 +38,13 @@
     "plugins": [
       "expo-router",
       "expo-localization",
+      "expo-file-system",
+      [
+        "expo-av",
+        {
+          "microphonePermission": "Allow $(PRODUCT_NAME) to access your microphone"
+        }
+      ],
       [
         "expo-camera",
         {

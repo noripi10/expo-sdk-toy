@@ -1,4 +1,4 @@
-import { useRouter, useSegments } from 'expo-router';
+import { Redirect, useRouter, useSegments } from 'expo-router';
 import { Dispatch, SetStateAction, createContext, PropsWithChildren, useState, useEffect, useContext } from 'react';
 
 // expo router authentication doc
@@ -20,10 +20,11 @@ export const ProtectedProvider = ({ children }: PropsWithChildren) => {
   const router = useRouter();
   const segments = useSegments();
   // TODO 本来はNull
-  const [user, setUser] = useState<User | undefined | null>({
-    id: '123',
-    name: 'noripi10',
-  });
+  const [user, setUser] = useState<User | undefined | null>();
+  // {
+  //   id: '123',
+  //   name: 'noripi10',
+  // }
 
   useEffect(() => {
     const segment = segments[0];

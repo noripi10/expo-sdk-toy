@@ -13,10 +13,11 @@ import { ProtectedProvider } from '@/context/Protected';
 import { UpdateView } from '@/components/UpdateView';
 import { KeyboardProvider } from 'react-native-keyboard-controller';
 
+import { CustomThemeContext, CustomThemeProvider } from '@/context/Theme';
+
 // ★ SetUp Task Manager ★
 import '@/libs/task';
-import { CustomThemeContext, CustomThemeProvider } from '@/context/Theme';
-import { useUpdateSettings } from '@/hooks/useUpdateSettings';
+import { Sound } from '@/components/Sound';
 
 export {
   // Catch any errors thrown by the Layout component.

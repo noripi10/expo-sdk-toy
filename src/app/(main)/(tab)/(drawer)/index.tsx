@@ -3,14 +3,27 @@ import { Pressable, StyleSheet } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { Link } from 'expo-router';
 import { FontAwesome } from '@expo/vector-icons';
+import * as FileSystem from 'expo-file-system';
 
-import { Alert, AlertIcon, AlertText, Button, ButtonText, InfoIcon, BellIcon, SunIcon } from '@gluestack-ui/themed';
+import {
+  Alert,
+  AlertIcon,
+  AlertText,
+  Button,
+  ButtonText,
+  InfoIcon,
+  BellIcon,
+  SunIcon,
+  ScrollView,
+  Box,
+} from '@gluestack-ui/themed';
 import { View, Text } from '@/components/Themed';
 import Colors from '@/constants/Colors';
 import { useWidth } from '@/hooks/useWidth';
 import { useNotification } from '@/hooks/useNotification';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { CustomThemeContext } from '@/context/Theme';
+import { Sound } from '@/components/Sound';
 
 export default function Menu() {
   const { top } = useSafeAreaInsets();
@@ -26,33 +39,69 @@ export default function Menu() {
   });
 
   return (
-    <View style={[styles.continer, { paddingTop: top, width: flexibleWidth, margin: 'auto' }]}>
-      <Links />
+    <ScrollView style={[styles.continer, { width: flexibleWidth, margin: 'auto' }]}>
+      <Box flex={1} gap={'$1.5'} pb={'$5'}>
+        <Sound />
 
-      <Button onPress={requestPermissions} rounded={'$xl'}>
-        <ButtonText>Request Push Notification Token</ButtonText>
-      </Button>
-      <Button action={'negative'} rounded={'$xl'} disabled={!isNofification} onPress={testScheduleNotification}>
-        <ButtonText>Test Push Notification</ButtonText>
-      </Button>
+        <Links />
 
-      <Alert action='info' borderRadius={'$lg'}>
-        <AlertIcon as={InfoIcon} mr='$2' />
-        <AlertText fontSize={'$md'}>{expoPushToken}</AlertText>
-      </Alert>
+        <Button onPress={requestPermissions} rounded={'$xl'}>
+          <ButtonText>Request Push Notification Token</ButtonText>
+        </Button>
 
-      <Alert action='success' borderRadius={'$lg'}>
-        <AlertIcon as={BellIcon} mr='$2' />
-        <AlertText fontSize={'$md'}>{notificationResult}</AlertText>
-      </Alert>
+        <Button action={'negative'} rounded={'$xl'} disabled={!isNofification} onPress={testScheduleNotification}>
+          <ButtonText>Test Push Notification</ButtonText>
+        </Button>
 
-      <Alert action='warning' borderRadius={'$lg'}>
-        <AlertIcon as={SunIcon} mr='$2' />
-        <AlertText fontSize={'$md'} textTransform='uppercase'>
-          {customColorScheme ? `theme: ${customColorScheme}` : ''}
-        </AlertText>
-      </Alert>
-    </View>
+        <Alert action='info' borderRadius={'$lg'}>
+          <AlertIcon as={InfoIcon} mr='$2' />
+          <AlertText fontSize={'$sm'}>{expoPushToken}</AlertText>
+        </Alert>
+
+        <Alert action='success' borderRadius={'$lg'}>
+          <AlertIcon as={BellIcon} mr='$2' />
+          <AlertText fontSize={'$sm'}>{notificationResult}</AlertText>
+        </Alert>
+
+        <Alert action='warning' borderRadius={'$lg'}>
+          <AlertIcon as={SunIcon} mr='$2' />
+          <AlertText fontSize={'$sm'} textTransform='uppercase'>
+            {customColorScheme ? `theme: ${customColorScheme}` : ''}
+          </AlertText>
+        </Alert>
+
+        <Button
+          action={'positive'}
+          rounded={'$xl'}
+          h={'$16'}
+          onPress={async () => {
+            try {
+              const result = await FileSystem.downloadAsync(
+                'https://d23dyxeqlo5psv.cloudfront.net/big_buck_bunny.mp4',
+                `${FileSystem.documentDirectory}big_buck_bunny.mp4`
+              );
+              console.info({ result });
+            } catch (error) {
+              console.error(error);
+            }
+          }}
+        >
+          <ButtonText>{'Download File\nbig_buck_bunny.mp4'}</ButtonText>
+        </Button>
+
+        <Text>documentDirectory</Text>
+        <Alert action='info' borderRadius={'$lg'}>
+          <AlertIcon as={InfoIcon} mr={'$2'} />
+          <AlertText fontSize={'$xs'}>{FileSystem.documentDirectory}</AlertText>
+        </Alert>
+
+        <Text>cacheDirectory</Text>
+        <Alert action='info' borderRadius={'$lg'}>
+          <AlertIcon as={InfoIcon} mr={'$2'} />
+          <AlertText fontSize={'$xs'}>{FileSystem.cacheDirectory}</AlertText>
+        </Alert>
+      </Box>
+    </ScrollView>
   );
 }
 
@@ -132,6 +181,5 @@ const styles = StyleSheet.create({
   continer: {
     flex: 1,
     padding: 8,
-    gap: 6,
   },
 });
