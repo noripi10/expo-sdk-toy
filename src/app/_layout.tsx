@@ -48,7 +48,11 @@ function RootLayout() {
 
   useEffect(() => {
     if (loaded && customColorScheme) {
-      SplashScreen.hideAsync();
+      setTimeout(() => {
+        // ちょっと遅らせないとindex.tsxが表示されてしまう
+        // -> useEffectでユーザー認証を感知しているから
+        SplashScreen.hideAsync();
+      }, 500);
     }
   }, [loaded, customColorScheme]);
 
