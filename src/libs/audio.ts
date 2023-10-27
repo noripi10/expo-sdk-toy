@@ -1,4 +1,4 @@
-import { Audio } from 'expo-av';
+import { Audio, InterruptionModeAndroid, InterruptionModeIOS } from 'expo-av';
 
 class AudioManager {
   private isSetup: boolean = false;
@@ -6,17 +6,20 @@ class AudioManager {
 
   initialize = async () => {
     const result = await Audio.setAudioModeAsync({
-      playThroughEarpieceAndroid: false,
-      shouldDuckAndroid: true,
-      allowsRecordingIOS: false,
+      // allowsRecordingIOS: false,
+      // interruptionModeAndroid: InterruptionModeAndroid.DoNotMix,
+      // interruptionModeIOS: InterruptionModeIOS.DoNotMix,
+      // playThroughEarpieceAndroid: false,
       playsInSilentModeIOS: true,
+      // shouldDuckAndroid: true,
+      staysActiveInBackground: true,
     });
     this.isSetup = true;
     return result;
   };
 
   setupSound = async () => {
-    const { sound } = await Audio.Sound.createAsync(require('@assets/sounds/bgm.mp3'));
+    const { sound } = await Audio.Sound.createAsync(require('@assets/sounds/bgm.wav'));
     this.sound = sound;
   };
 

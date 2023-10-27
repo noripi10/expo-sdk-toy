@@ -20,11 +20,10 @@ export const ProtectedProvider = ({ children }: PropsWithChildren) => {
   const router = useRouter();
   const segments = useSegments();
   // TODO 本来はNull
-  const [user, setUser] = useState<User | undefined | null>();
-  // {
-  //   id: '123',
-  //   name: 'noripi10',
-  // }
+  const [user, setUser] = useState<User | undefined | null>({
+    id: '123',
+    name: 'noripi10',
+  });
 
   useEffect(() => {
     const segment = segments[0];

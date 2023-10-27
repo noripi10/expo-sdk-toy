@@ -1,25 +1,76 @@
+// import AudioManager from '@/libs/audio';
+import { useAudioManager } from '@/hooks/useAudioManager';
+import { Button, ButtonGroup, ButtonText, HStack, Text, VStack } from '@gluestack-ui/themed';
 import { useEffect } from 'react';
 
-import AudioManager from '@/libs/audio';
-import { Button, ButtonText, HStack } from '@gluestack-ui/themed';
-
 export const Sound = () => {
-  useEffect(() => {
-    // AudioManager.play();
+  const { playAsync, pauseAsync, stopAsync, status, audioState } = useAudioManager();
 
-    return () => {
-      AudioManager.stop();
-    };
-  });
+  // const [soundStatus, setSoundStatus] = useState<AVPlaybackStatusSuccess>();
+  // useEffect(() => {
+  //   // AudioManager.play();
+
+  //   return () => {
+  //     AudioManager.stop();
+  //   };
+  // });
+
+  let position = '';
+  let duration = '';
+  if (audioState) {
+    let date = new Date(audioState.positionMillis);
+    position = `${date.getMinutes()}分${date.getSeconds()}秒`;
+    date = new Date(audioState?.durationMillis ?? '');
+    duration = `${date.getMinutes()}分${date.getSeconds()}秒`;
+  }
+
+  useEffect(() => {}, [audioState]);
 
   return (
-    <HStack>
-      <Button onPress={() => AudioManager.play()}>
-        <ButtonText>Play</ButtonText>
-      </Button>
-      <Button onPress={() => AudioManager.stop()}>
-        <ButtonText>Stop</ButtonText>
-      </Button>
-    </HStack>
+    <VStack alignItems='center' gap={'$0.5'}>
+      <Text>{status}</Text>
+      <Text>{position}</Text>
+      <Text>{duration}</Text>
+      <HStack justifyContent='center'>
+        <ButtonGroup gap={'$0.5'}>
+          <Button
+            onPress={async () => {
+              // const status = await AudioManager.play();
+              // if (status && !('error' in status)) {
+              //   setSoundStatus(status as AVPlaybackStatusSuccess);
+              // }
+              await playAsync();
+            }}
+            action='primary'
+          >
+            <ButtonText>Play</ButtonText>
+          </Button>
+          <Button
+            onPress={async () => {
+              // const status = await AudioManager.pause();
+              // if (status && !('error' in status)) {
+              //   setSoundStatus(status as AVPlaybackStatusSuccess);
+              // }
+              await pauseAsync();
+            }}
+            action='positive'
+          >
+            <ButtonText>Pause</ButtonText>
+          </Button>
+          <Button
+            onPress={async () => {
+              // const status = await AudioManager.stop();
+              // if (status && !('error' in status)) {
+              //   setSoundStatus(status as AVPlaybackStatusSuccess);
+              // }
+              await stopAsync();
+            }}
+            action='negative'
+          >
+            <ButtonText>Stop</ButtonText>
+          </Button>
+        </ButtonGroup>
+      </HStack>
+    </VStack>
   );
 };
