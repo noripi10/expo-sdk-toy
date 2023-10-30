@@ -4,7 +4,7 @@ import { Button, ButtonGroup, ButtonText, HStack, Text, VStack } from '@gluestac
 import { useEffect } from 'react';
 
 export const Sound = () => {
-  const { playAsync, pauseAsync, stopAsync, status, audioState } = useAudioManager();
+  const { isReady, playAsync, pauseAsync, stopAsync, status, audioState } = useAudioManager();
 
   // const [soundStatus, setSoundStatus] = useState<AVPlaybackStatusSuccess>();
   // useEffect(() => {
@@ -32,7 +32,7 @@ export const Sound = () => {
       <Text>{position}</Text>
       <Text>{duration}</Text>
       <HStack justifyContent='center'>
-        <ButtonGroup gap={'$0.5'}>
+        <ButtonGroup gap={'$0.5'} isDisabled={!isReady}>
           <Button
             onPress={async () => {
               // const status = await AudioManager.play();
