@@ -1,7 +1,7 @@
 import { Box, Button, ButtonText, Center, Pressable, Text } from '@gluestack-ui/themed';
 import { memo, useEffect, useRef, useState } from 'react';
-import { DimensionValue, Dimensions, FlatList, ScrollView, StyleSheet } from 'react-native';
-import MapView, { LatLng, Marker, Region } from 'react-native-maps';
+import { Alert, DimensionValue, Dimensions, FlatList, ScrollView, StyleSheet } from 'react-native';
+import MapView, { LatLng, MapMarker, Marker, Region } from 'react-native-maps';
 
 import type { GeoJsonProperties } from 'geojson';
 import { useClusterer, type supercluster } from 'react-native-clusterer';
@@ -41,6 +41,10 @@ export default function MayPage() {
 
   const mapRef = useRef<MapView>(null);
   const flatListRef = useRef<FlatList>(null);
+
+  const markerRefs = useRef<{ current: MapMarker | null }[]>(
+    new Array(GifuStations.length).map(() => ({ current: null }))
+  ).current;
 
   const [scrollEnabled, setScrollEnabled] = useState(true);
 
@@ -134,6 +138,7 @@ export default function MayPage() {
                 });
               }, 300);
             }}
+            innerRef={markerRefs[i]}
           />
         ))}
       </MapView>
@@ -214,7 +219,19 @@ const getMarkerSize = (count: number): DimensionValue => {
 };
 
 const ClustererMarker = memo(
-  ({ p, marker, onPressMarker }: { p: GeoJson; marker?: LatLng; onPressMarker: () => void }) => {
+  ({
+    p,
+    marker,
+    onPressMarker,
+    innerRef,
+  }: {
+    p: GeoJson;
+    marker?: LatLng;
+    onPressMarker: () => void;
+    innerRef: {
+      current: MapMarker | null;
+    };
+  }) => {
     const stringCount = String(p.properties?.point_count ?? '1');
     const count = parseInt(stringCount, 10);
     const isSelected = marker?.latitude === p.geometry.coordinates[1] && marker.longitude === p.geometry.coordinates[0];
@@ -242,6 +259,7 @@ const ClustererMarker = memo(
 
     return (
       <Marker
+        ref={innerRef}
         coordinate={{
           latitude: p.geometry.coordinates[1],
           longitude: p.geometry.coordinates[0],
