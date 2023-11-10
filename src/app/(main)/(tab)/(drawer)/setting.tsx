@@ -1,4 +1,10 @@
-import Animated, { useAnimatedStyle, useSharedValue, withRepeat, withTiming } from 'react-native-reanimated';
+import Animated, {
+  cancelAnimation,
+  useAnimatedStyle,
+  useSharedValue,
+  withRepeat,
+  withTiming,
+} from 'react-native-reanimated';
 
 import { useRouter } from 'expo-router';
 import { FontAwesome } from '@expo/vector-icons';
@@ -12,10 +18,13 @@ import {
   Heading,
   Switch,
   Center,
+  Box,
+  Text,
 } from '@gluestack-ui/themed';
 import { View } from '@/components/Themed';
 import { useAuth } from '@/context/Protected';
 import { useUpdateSettings } from '@/hooks/useUpdateSettings';
+import { useCallback, useEffect, useMemo } from 'react';
 
 export default function Settings() {
   const { setting, globalSetting } = useUpdateSettings();
@@ -30,6 +39,23 @@ export default function Settings() {
       transform: [{ translateX: animatedValue.value }],
     };
   });
+
+  const memoComponent = useCallback(() => {
+    return (
+      <Box>
+        <Text>Memo Component</Text>
+      </Box>
+    );
+  }, []);
+
+  useEffect(() => {
+    animatedValue.value = withRepeat(withTiming(32, { duration: 1000 }), -1, true);
+
+    return () => {
+      cancelAnimation(animatedValue);
+    };
+  }, []);
+
   return (
     <View style={{ flex: 1, alignItems: 'center', padding: 8 }}>
       <Heading fontSize={'$2xl'} p={'$4'}>
@@ -45,11 +71,7 @@ export default function Settings() {
         />
       </Center>
 
-      <ButtonGroup
-        onLayout={() => {
-          animatedValue.value = withRepeat(withTiming(32, { duration: 1000 }), -1, true);
-        }}
-      >
+      <ButtonGroup>
         <Button
           bg='$teal500'
           w='$full'
@@ -67,6 +89,8 @@ export default function Settings() {
           </Animated.View>
         </Button>
       </ButtonGroup>
+
+      <Center flex={1}>{memoComponent()}</Center>
     </View>
   );
 }

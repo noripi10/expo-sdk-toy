@@ -70,5 +70,5 @@ export const useAudioManager = () => {
     setStatus('stop');
   };
 
-  return { playAsync, pauseAsync, stopAsync, status, audioState };
+  return { isReady: !!sound, playAsync, pauseAsync, stopAsync, status, audioState };
 };
