@@ -62,6 +62,11 @@ export default function AppLayout() {
         name='face-detector'
         options={{ headerShown: true, headerTitle: 'Face Detector', title: 'FACE DETECTOR' }}
       />
+      <Drawer.Screen name='scroll-animation' options={{ headerShown: true, headerTitle: 'Scroll', title: 'SCROLL' }} />
+      <Drawer.Screen
+        name='scroll-animation_2'
+        options={{ headerShown: true, headerTitle: 'Scroll2', title: 'SCROLL2' }}
+      />
       <Drawer.Screen name='setting' options={{ headerShown: true, headerTitle: 'Settings', title: 'SETTINGS' }} />
     </Drawer>
   );

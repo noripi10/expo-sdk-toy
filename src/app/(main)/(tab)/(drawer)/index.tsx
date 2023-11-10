@@ -110,69 +110,87 @@ const Links = () => {
 
   return (
     <>
-      <Link asChild href='/_sitemap' style={{ display: __DEV__ ? 'flex' : 'none' }}>
-        <Pressable>
-          {({ pressed }) => (
-            <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-              <FontAwesome
-                name='info-circle'
-                size={25}
-                color={Colors[customColorScheme ?? 'light'].text}
-                style={{ marginRight: 15, opacity: pressed ? 0.5 : 1 }}
-              />
-              <Text>Go to SiteMap</Text>
-            </View>
-          )}
-        </Pressable>
-      </Link>
+      <Box flexDirection='row' flexWrap='wrap' gap={'$1'}>
+        <Link asChild href='/_sitemap' style={{ display: __DEV__ ? 'flex' : 'none' }}>
+          <Pressable>
+            {({ pressed }) => (
+              <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+                <FontAwesome
+                  name='info-circle'
+                  size={25}
+                  color={Colors[customColorScheme ?? 'light'].text}
+                  style={{ marginRight: 15, opacity: pressed ? 0.5 : 1 }}
+                />
+                <Text>Go to SiteMap</Text>
+              </View>
+            )}
+          </Pressable>
+        </Link>
 
-      <Link asChild href='/face-detector'>
-        <Pressable>
-          {({ pressed }) => (
-            <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-              <FontAwesome
-                name='info-circle'
-                size={25}
-                color={Colors[customColorScheme ?? 'light'].text}
-                style={{ marginRight: 15, opacity: pressed ? 0.5 : 1 }}
-              />
-              <Text>Go to Face-Detector</Text>
-            </View>
-          )}
-        </Pressable>
-      </Link>
+        <Link asChild href='/face-detector'>
+          <Pressable>
+            {({ pressed }) => (
+              <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+                <FontAwesome
+                  name='info-circle'
+                  size={25}
+                  color={Colors[customColorScheme ?? 'light'].text}
+                  style={{ marginRight: 15, opacity: pressed ? 0.5 : 1 }}
+                />
+                <Text>Go to Face-Detector</Text>
+              </View>
+            )}
+          </Pressable>
+        </Link>
 
-      <Link asChild href='/setting'>
-        <Pressable>
-          {({ pressed }) => (
-            <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-              <FontAwesome
-                name='info-circle'
-                size={25}
-                color={Colors[customColorScheme ?? 'light'].text}
-                style={{ marginRight: 15, opacity: pressed ? 0.5 : 1 }}
-              />
-              <Text>Go to Setting</Text>
-            </View>
-          )}
-        </Pressable>
-      </Link>
+        <Link asChild href='/scroll-animation'>
+          <Pressable>
+            {({ pressed }) => (
+              <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+                <FontAwesome
+                  name='info-circle'
+                  size={25}
+                  color={Colors[customColorScheme ?? 'light'].text}
+                  style={{ marginRight: 15, opacity: pressed ? 0.5 : 1 }}
+                />
+                <Text>Go to Scroll-Animation</Text>
+              </View>
+            )}
+          </Pressable>
+        </Link>
 
-      <Link asChild href='/modal'>
-        <Pressable>
-          {({ pressed }) => (
-            <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-              <FontAwesome
-                name='info-circle'
-                size={25}
-                color={Colors[customColorScheme ?? 'light'].text}
-                style={{ marginRight: 15, opacity: pressed ? 0.5 : 1 }}
-              />
-              <Text>Go to Modal</Text>
-            </View>
-          )}
-        </Pressable>
-      </Link>
+        <Link asChild href='/setting'>
+          <Pressable>
+            {({ pressed }) => (
+              <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+                <FontAwesome
+                  name='info-circle'
+                  size={25}
+                  color={Colors[customColorScheme ?? 'light'].text}
+                  style={{ marginRight: 15, opacity: pressed ? 0.5 : 1 }}
+                />
+                <Text>Go to Setting</Text>
+              </View>
+            )}
+          </Pressable>
+        </Link>
+
+        <Link asChild href='/modal'>
+          <Pressable>
+            {({ pressed }) => (
+              <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+                <FontAwesome
+                  name='info-circle'
+                  size={25}
+                  color={Colors[customColorScheme ?? 'light'].text}
+                  style={{ marginRight: 15, opacity: pressed ? 0.5 : 1 }}
+                />
+                <Text>Go to Modal</Text>
+              </View>
+            )}
+          </Pressable>
+        </Link>
+      </Box>
     </>
   );
 };

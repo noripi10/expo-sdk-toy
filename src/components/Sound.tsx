@@ -27,10 +27,10 @@ export const Sound = () => {
   useEffect(() => {}, [audioState]);
 
   return (
-    <VStack alignItems='center' gap={'$0.5'}>
-      <Text>{status}</Text>
-      <Text>{position}</Text>
-      <Text>{duration}</Text>
+    <VStack alignItems='center' gap={'$0.5'} borderColor='$blueGray700' borderWidth={1} p={'$1'}>
+      <Text pt={'$1'} pb={'$1.5'}>
+        status: {status} status:{position} duration: {duration}
+      </Text>
       <HStack justifyContent='center'>
         <ButtonGroup gap={'$0.5'}>
           <Button
