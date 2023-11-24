@@ -1,7 +1,7 @@
 import React, { useContext, useLayoutEffect, useState } from 'react';
 import { Pressable, StyleSheet } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import { Link } from 'expo-router';
+import { Link, useRouter } from 'expo-router';
 import { FontAwesome } from '@expo/vector-icons';
 import * as FileSystem from 'expo-file-system';
 
@@ -24,6 +24,7 @@ import { useNotification } from '@/hooks/useNotification';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { CustomThemeContext } from '@/context/Theme';
 import { Sound } from '@/components/Sound';
+import Animated from 'react-native-reanimated';
 
 export default function Menu() {
   const { top } = useSafeAreaInsets();
@@ -106,6 +107,7 @@ export default function Menu() {
 }
 
 const Links = () => {
+  const router = useRouter();
   const { customColorScheme } = useContext(CustomThemeContext);
 
   return (
@@ -175,8 +177,8 @@ const Links = () => {
           </Pressable>
         </Link>
 
-        <Link asChild href='/modal'>
-          <Pressable>
+        <>
+          <Pressable onPress={() => router.push('/modal')}>
             {({ pressed }) => (
               <View style={{ flexDirection: 'row', alignItems: 'center' }}>
                 <FontAwesome
@@ -186,10 +188,18 @@ const Links = () => {
                   style={{ marginRight: 15, opacity: pressed ? 0.5 : 1 }}
                 />
                 <Text>Go to Modal</Text>
+                <Animated.Image
+                  alt=''
+                  source={require('@assets/images/sea.jpg')}
+                  style={{ width: 200, height: 200, aspectRatio: 16 / 9, marginHorizontal: 4, borderRadius: 8 }}
+                  resizeMethod={'resize'}
+                  resizeMode={'cover'}
+                  sharedTransitionTag='transition-image'
+                />
               </View>
             )}
           </Pressable>
-        </Link>
+        </>
       </Box>
     </>
   );
