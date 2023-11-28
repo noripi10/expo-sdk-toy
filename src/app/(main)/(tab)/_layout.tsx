@@ -8,7 +8,7 @@ export const unstable_settings = {
 
 export default function TabsLayout() {
   return (
-    <Tabs screenOptions={{ headerShown: false }}>
+    <Tabs screenOptions={{ headerShown: false, tabBarHideOnKeyboard: true }}>
       <Tabs.Screen name='(drawer)' options={{ tabBarIcon: (props) => <FontAwesome name='home' {...props} /> }} />
       <Tabs.Screen
         name='keyboard-provider'

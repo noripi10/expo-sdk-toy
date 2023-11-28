@@ -18,6 +18,9 @@ import { CustomThemeContext, CustomThemeProvider } from '@/context/Theme';
 // ★ SetUp Task Manager ★
 import '@/libs/task';
 import { Sound } from '@/components/Sound';
+import { LogBox } from 'react-native';
+
+LogBox.ignoreAllLogs();
 
 export {
   // Catch any errors thrown by the Layout component.
