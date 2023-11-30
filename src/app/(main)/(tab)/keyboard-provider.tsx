@@ -65,6 +65,10 @@ export default function KeyboardPage() {
 
   const inputComponentStyle = useAnimatedStyle(() => {
     if (progress.value === 1) {
+      // heigth.value
+      // 隠れているときは0, 表示されているときはoffset的にマイナス値
+      // 48
+      // accessaryの高さ分
       const avoidHeight = HEIGHT + height.value - 48;
       return {
         flex: 1,
@@ -106,18 +110,30 @@ export default function KeyboardPage() {
 
       <Box flex={1}>
         <Animated.View style={[{ flex: 1, padding: 4, paddingTop: top }, inputComponentStyle]}>
-          <HStack justifyContent='flex-end'>
+          <HStack justifyContent='flex-end' px={'$2'} py={'$1'} alignItems='center' gap={'$1'}>
+            <Text>Editing</Text>
             <Switch size='md' value={editing} onValueChange={setEditing} />
           </HStack>
           <TextInput
             ref={inputRef}
-            style={{ borderWidth: 0, borderRadius: 10, flex: 1, padding: 12, backgroundColor: '#ccc' }}
+            style={{
+              fontSize: 14,
+              borderWidth: 0,
+              borderRadius: 10,
+              flex: 1,
+              padding: 12,
+              backgroundColor: '#222',
+              color: '#fff',
+            }}
             multiline
             value={text}
             onChangeText={setText}
             onSelectionChange={(e) => {
               console.info(e.nativeEvent.selection);
               setSelection(e.nativeEvent.selection);
+            }}
+            onContentSizeChange={(e) => {
+              console.info('onContentSizeChange', e.nativeEvent.contentSize);
             }}
             editable={editing}
           />
@@ -140,14 +156,26 @@ export default function KeyboardPage() {
                       <Button
                         size='xs'
                         onPress={() => {
+                          let newSelection = { start: 0, end: 0 };
+                          if (selection.start === selection.end) {
+                            newSelection = { start: selection.start - 1, end: selection.end - 1 };
+                          } else {
+                            newSelection = { start: selection.start, end: selection.end - 1 };
+                          }
+
                           inputRef.current?.setNativeProps({
-                            selection: { start: selection.start - 1, end: selection.end - 1 },
+                            selection: newSelection,
                           });
-                          setSelection({ start: selection.start - 1, end: selection.end - 1 });
+                          setSelection(newSelection);
                         }}
                         bgColor='$blueGray300'
                         w={'$9'}
                         h={'$9'}
+                        sx={{
+                          ':active': {
+                            bgColor: '$blueGray200',
+                          },
+                        }}
                       >
                         <ButtonIcon as={ArrowLeftIcon} color='#000' size='md' />
                       </Button>
@@ -155,28 +183,77 @@ export default function KeyboardPage() {
                       <Button
                         size='xs'
                         onPress={() => {
+                          let newSelection = { start: 0, end: 0 };
+                          if (selection.start === selection.end) {
+                            newSelection = { start: selection.start + 1, end: selection.end + 1 };
+                          } else {
+                            newSelection = { start: selection.start, end: selection.end + 1 };
+                          }
+
                           inputRef.current?.setNativeProps({
-                            selection: { start: selection.start + 1, end: selection.end + 1 },
+                            selection: newSelection,
                           });
-                          setSelection({ start: selection.start + 1, end: selection.end + 1 });
+                          setSelection(newSelection);
                         }}
                         bgColor='$blueGray300'
                         w={'$9'}
                         h={'$9'}
+                        sx={{
+                          ':active': {
+                            bgColor: '$blueGray200',
+                          },
+                        }}
                       >
                         <ButtonIcon as={ArrowRightIcon} color='#000' size='md' />
                       </Button>
 
-                      <Button size='xs' onPress={Keyboard.dismiss} bgColor='$blueGray300' w={'$9'} h={'$9'}>
+                      <Button
+                        size='xs'
+                        onPress={() => {
+                          console.info('');
+                        }}
+                        bgColor='$blueGray300'
+                        w={'$9'}
+                        h={'$9'}
+                        sx={{
+                          ':active': {
+                            bgColor: '$blueGray200',
+                          },
+                        }}
+                      >
                         <ButtonIcon as={ArrowUpIcon} color='#000' size='md' />
                       </Button>
 
-                      <Button size='xs' onPress={Keyboard.dismiss} bgColor='$blueGray300' w={'$9'} h={'$9'}>
+                      <Button
+                        size='xs'
+                        onPress={() => {
+                          console.info('');
+                        }}
+                        bgColor='$blueGray300'
+                        w={'$9'}
+                        h={'$9'}
+                        sx={{
+                          ':active': {
+                            bgColor: '$blueGray200',
+                          },
+                        }}
+                      >
                         <ButtonIcon as={ArrowDownIcon} color='#000' size='md' />
                       </Button>
 
-                      <Button size='xs' onPress={Keyboard.dismiss} bgColor='$blueGray300' w={'$9'} h={'$9'}>
-                        <ButtonIcon as={CheckCircleIcon} color='#000' size='md' />
+                      <Button
+                        size='xs'
+                        onPress={Keyboard.dismiss}
+                        bgColor='$green600'
+                        w={'$9'}
+                        h={'$9'}
+                        sx={{
+                          ':active': {
+                            bgColor: '$green500',
+                          },
+                        }}
+                      >
+                        <ButtonIcon as={CheckCircleIcon} color='#ddd' size='md' />
                       </Button>
                     </HStack>
                   </HStack>
@@ -227,9 +304,20 @@ Many platforms, one React. Create platform-specific versions of components so a 
 Native Development For Everyone
 React Native lets you create truly native apps and doesn't compromise your users' experiences. It provides a core set of platform agnostic native components like View, Text, and Image that map directly to the platform’s native UI building blocks.
 
-React NativeはFacebookが開発したモバイルアプリケーションのフレームワークです。ReactというJavaScriptライブラリをベースにしており、JavaScriptやReactの知識があればネイティブアプリのような高性能なアプリを開発することができます。
+React Native
+Learn once, write anywhere.
 
-React Nativeアプリはネイティブのコンポーネントを使用してUIを構築しますが、そのロジック部分はJavaScriptで記述します。これによりiOSやAndroidのネイティブ開発をある程度抽象化し、一度コードを書いたら両プラットフォームで動作するクロスプラットフォームなアプリを効率的に開発できるのが大きなメリットです。
+Create native apps for Android, iOS, and more using React
+React Native combines the best parts of native development with React, a best-in-class JavaScript library for building user interfaces.
 
-React NativeはiOS/Android双方のプラットフォームに最適化されたネイティブのUI体験を提供しつつ、Webと同様の開発手法でアプリが構築できるため、最近では多くのメジャーなアプリでも採用されるようになっています。
+Use a little—or a lot. You can use React Native today in your existing Android and iOS projects or you can create a whole new app from scratch.
+
+Written in JavaScript—rendered with native code
+React primitives render to native platform UI, meaning your app uses the same native platform APIs other apps do.
+
+Many platforms, one React. Create platform-specific versions of components so a single codebase can share code across platforms. With React Native, one team can maintain multiple platforms and share a common technology—React.
+
+Native Development For Everyone
+React Native lets you create truly native apps and doesn't compromise your users' experiences. It provides a core set of platform agnostic native components like View, Text, and Image that map directly to the platform’s native UI building blocks.
+
 `;
