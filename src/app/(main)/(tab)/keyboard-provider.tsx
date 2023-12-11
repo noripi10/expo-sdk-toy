@@ -1,36 +1,19 @@
-import { Dimensions, Keyboard, StyleSheet, TextInputSelectionChangeEventData } from 'react-native';
+import { useEffect, useMemo, useRef, useState } from 'react';
+import { Dimensions, StyleSheet, TextInputSelectionChangeEventData } from 'react-native';
+import { TextInput } from 'react-native';
+
+import Animated, { runOnJS, useAnimatedStyle, useDerivedValue } from 'react-native-reanimated';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import {
   KeyboardAvoidingView,
   useKeyboardHandler,
   useReanimatedKeyboardAnimation,
 } from 'react-native-keyboard-controller';
-import { KeyboardAccessoryView } from 'react-native-keyboard-accessory';
 
-import {
-  ArrowDownIcon,
-  ArrowLeftIcon,
-  ArrowRightIcon,
-  ArrowUpIcon,
-  Box,
-  Button,
-  ButtonIcon,
-  ButtonText,
-  Center,
-  CheckCircleIcon,
-  CloseIcon,
-  HStack,
-  Input,
-  InputField,
-  Switch,
-} from '@gluestack-ui/themed';
+import { Box, HStack, Switch, Text } from '@gluestack-ui/themed';
 
+import { KeyBoardAccessory } from '@/components/KeyBoardAccessory';
 import EditScreenInfo from '@/components/EditScreenInfo';
-import { Text, View } from '@/components/Themed';
-import Animated, { runOnJS, useAnimatedStyle, useDerivedValue, useSharedValue } from 'react-native-reanimated';
-import { ScrollView, TextInput } from 'react-native-gesture-handler';
-import { FontAwesome } from '@expo/vector-icons';
-import { useEffect, useRef, useState } from 'react';
 
 const { width: WIDTH, height: HEIGHT } = Dimensions.get('window');
 console.info({ WIDTH, HEIGHT });
@@ -129,7 +112,7 @@ export default function KeyboardPage() {
             value={text}
             onChangeText={setText}
             onSelectionChange={(e) => {
-              console.info(e.nativeEvent.selection);
+              // console.info(e.nativeEvent.selection);
               setSelection(e.nativeEvent.selection);
             }}
             onContentSizeChange={(e) => {
@@ -140,130 +123,7 @@ export default function KeyboardPage() {
         </Animated.View>
       </Box>
 
-      <KeyboardAccessoryView
-        heightProperty='minHeight'
-        androidAdjustResize
-        style={{ backgroundColor: '#00000000', borderWidth: 0 }}
-      >
-        {({ isKeyboardVisible }) => {
-          return (
-            <>
-              {isKeyboardVisible && (
-                <Box flex={1} backgroundColor='tranparent' h={'$12'}>
-                  <HStack flex={1} bgColor='$blueGray200' m={'$1'} p={'$0.5'} borderRadius={'$md'}>
-                    <Box flex={1}></Box>
-                    <HStack gap={'$0.5'}>
-                      <Button
-                        size='xs'
-                        onPress={() => {
-                          let newSelection = { start: 0, end: 0 };
-                          if (selection.start === selection.end) {
-                            newSelection = { start: selection.start - 1, end: selection.end - 1 };
-                          } else {
-                            newSelection = { start: selection.start, end: selection.end - 1 };
-                          }
-
-                          inputRef.current?.setNativeProps({
-                            selection: newSelection,
-                          });
-                          setSelection(newSelection);
-                        }}
-                        bgColor='$blueGray300'
-                        w={'$9'}
-                        h={'$9'}
-                        sx={{
-                          ':active': {
-                            bgColor: '$blueGray200',
-                          },
-                        }}
-                      >
-                        <ButtonIcon as={ArrowLeftIcon} color='#000' size='md' />
-                      </Button>
-
-                      <Button
-                        size='xs'
-                        onPress={() => {
-                          let newSelection = { start: 0, end: 0 };
-                          if (selection.start === selection.end) {
-                            newSelection = { start: selection.start + 1, end: selection.end + 1 };
-                          } else {
-                            newSelection = { start: selection.start, end: selection.end + 1 };
-                          }
-
-                          inputRef.current?.setNativeProps({
-                            selection: newSelection,
-                          });
-                          setSelection(newSelection);
-                        }}
-                        bgColor='$blueGray300'
-                        w={'$9'}
-                        h={'$9'}
-                        sx={{
-                          ':active': {
-                            bgColor: '$blueGray200',
-                          },
-                        }}
-                      >
-                        <ButtonIcon as={ArrowRightIcon} color='#000' size='md' />
-                      </Button>
-
-                      <Button
-                        size='xs'
-                        onPress={() => {
-                          console.info('');
-                        }}
-                        bgColor='$blueGray300'
-                        w={'$9'}
-                        h={'$9'}
-                        sx={{
-                          ':active': {
-                            bgColor: '$blueGray200',
-                          },
-                        }}
-                      >
-                        <ButtonIcon as={ArrowUpIcon} color='#000' size='md' />
-                      </Button>
-
-                      <Button
-                        size='xs'
-                        onPress={() => {
-                          console.info('');
-                        }}
-                        bgColor='$blueGray300'
-                        w={'$9'}
-                        h={'$9'}
-                        sx={{
-                          ':active': {
-                            bgColor: '$blueGray200',
-                          },
-                        }}
-                      >
-                        <ButtonIcon as={ArrowDownIcon} color='#000' size='md' />
-                      </Button>
-
-                      <Button
-                        size='xs'
-                        onPress={Keyboard.dismiss}
-                        bgColor='$green600'
-                        w={'$9'}
-                        h={'$9'}
-                        sx={{
-                          ':active': {
-                            bgColor: '$green500',
-                          },
-                        }}
-                      >
-                        <ButtonIcon as={CheckCircleIcon} color='#ddd' size='md' />
-                      </Button>
-                    </HStack>
-                  </HStack>
-                </Box>
-              )}
-            </>
-          );
-        }}
-      </KeyboardAccessoryView>
-
+      <KeyBoardAccessory {...{ inputRef, selection, setSelection }} />
       {/* <Box position='absolute' bottom={0} left={0} bgColor='$red400' w={393} h={336} /> */}
     </>
   );
