@@ -5,7 +5,8 @@ import { Slot, SplashScreen, useRouter } from 'expo-router';
 import { useFonts } from 'expo-font';
 import FontAwesome from '@expo/vector-icons/FontAwesome';
 
-import { GluestackUIProvider, config } from '@gluestack-ui/themed';
+import { GluestackUIProvider } from '@gluestack-ui/themed';
+import { config } from '@gluestack-ui/config';
 import { DarkTheme, DefaultTheme, ThemeProvider as NavigationThemeProvider } from '@react-navigation/native';
 
 import { ProtectedProvider } from '@/context/Protected';
@@ -94,7 +95,7 @@ function RootLayout() {
 
   return (
     <NavigationThemeProvider value={customColorScheme === 'dark' ? DarkTheme : DefaultTheme}>
-      <GluestackUIProvider config={config.theme} colorMode={customColorScheme === 'dark' ? 'dark' : 'light'}>
+      <GluestackUIProvider config={config} colorMode={customColorScheme === 'dark' ? 'dark' : 'light'}>
         <ProtectedProvider>
           <KeyboardProvider
           // statusBarTranslucent

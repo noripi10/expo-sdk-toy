@@ -151,7 +151,7 @@ export default function MayPage() {
         <Animated.View entering={FadeIn.delay(500)}>
           <Box position='absolute' left={0} right={0} bottom={0} h={'$64'}>
             <Box position='absolute' style={StyleSheet.absoluteFillObject} bgColor='#000' opacity={0.2} />
-            <Box position='relative' flex={1}>
+            <Box flex={1}>
               <FlatList
                 style={{ flex: 1 }}
                 ref={flatListRef}
@@ -163,10 +163,11 @@ export default function MayPage() {
                     flex={1}
                     p={'$4'}
                     w={WIDTH * 0.95}
+                    mx={(WIDTH * 0.05) / 2}
+                    my={'$2'}
                     maxWidth={400}
                     borderRadius={'$xl'}
                     borderWidth={'$1'}
-                    m={'$2'}
                     bg='$backgroundDark800'
                   >
                     <ScrollView>
@@ -176,11 +177,12 @@ export default function MayPage() {
                 )}
               />
             </Box>
-            <Box position='absolute' top={-14} right={8}>
+            <Box position='absolute' top={-30} right={8}>
               <Pressable
-                borderRadius={'$full'}
-                w={'$10'}
-                h={'$10'}
+                accessibilityLabel='close detail'
+                borderRadius={'$xl'}
+                w={'$12'}
+                h={'$8'}
                 bgColor={'#ccc'}
                 justifyContent='center'
                 alignItems='center'
@@ -192,7 +194,7 @@ export default function MayPage() {
                   setMarkerDetail(undefined);
                 }}
               >
-                <FontAwesome name='close' color={'#000'} size={24} />
+                <FontAwesome name='close' color={'#000'} size={18} />
               </Pressable>
             </Box>
           </Box>

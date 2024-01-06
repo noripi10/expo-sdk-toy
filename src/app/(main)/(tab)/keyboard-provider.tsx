@@ -16,7 +16,6 @@ import { KeyBoardAccessory } from '@/components/KeyBoardAccessory';
 import EditScreenInfo from '@/components/EditScreenInfo';
 
 const { width: WIDTH, height: HEIGHT } = Dimensions.get('window');
-console.info({ WIDTH, HEIGHT });
 
 export default function KeyboardPage() {
   const { top } = useSafeAreaInsets();

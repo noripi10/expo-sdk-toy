@@ -5,6 +5,8 @@ import Constants from 'expo-constants';
 import * as Device from 'expo-device';
 import * as Notifications from 'expo-notifications';
 
+const projectId = Constants.expoConfig?.extra?.eas.projectId;
+
 Notifications.setNotificationHandler({
   handleNotification: async () => ({
     shouldShowAlert: true,
@@ -60,8 +62,7 @@ export const useNotification = () => {
       return;
     }
 
-    const token = (await Notifications.getExpoPushTokenAsync({ projectId: Constants.expoConfig?.extra?.eas.projectId }))
-      .data;
+    const token = (await Notifications.getExpoPushTokenAsync({ projectId })).data;
 
     setExpoPushToken(token);
     console.info({ token });
@@ -128,14 +129,12 @@ export const useNotification = () => {
 
         setNotification(true);
 
-        Notifications.getExpoPushTokenAsync({ projectId: Constants.expoConfig?.extra?.eas.projectId }).then(
-          (result) => {
-            if (!expoPushToken || result.data !== expoPushToken) {
-              setExpoPushToken(result.data);
-              console.info({ token: result.data });
-            }
+        Notifications.getExpoPushTokenAsync({ projectId }).then((result) => {
+          if (!expoPushToken || result.data !== expoPushToken) {
+            setExpoPushToken(result.data);
+            console.info({ token: result.data });
           }
-        );
+        });
       });
 
       registerTestCategory();

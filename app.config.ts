@@ -1,6 +1,6 @@
 import { ExpoConfig, ConfigContext } from 'expo/config';
 
-import withAppleSettings, { Switch } from '@config-plugins/apple-settings';
+import withAppleSettings, { Group, Switch, Title } from '@config-plugins/apple-settings';
 
 import appJson from './app.json';
 
@@ -10,6 +10,10 @@ export default ({ config }: ConfigContext): Partial<ExpoConfig> => {
       ...config,
       name: appJson.expo.name,
       slug: appJson.expo.scheme,
+      extra: {
+        ...config.extra,
+        UN_AUTHENTICATION: process.env.UN_AUTHENTICATION,
+      },
     },
     {
       Root: {
@@ -19,6 +23,15 @@ export default ({ config }: ConfigContext): Partial<ExpoConfig> => {
               title: 'My Custom Setting 1',
               key: 'p_my_custom_setting_1',
               value: true,
+            }),
+            Group({
+              title: 'About',
+              footerText: 'Built by Noripi10 \nPowerd by Expo Δ',
+            }),
+            Title({
+              title: 'Version',
+              value: appJson.expo.version,
+              key: 'p_app_version',
             }),
           ],
         },

@@ -9,7 +9,7 @@ import Animated, {
   useDerivedValue,
   useSharedValue,
 } from 'react-native-reanimated';
-import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import { SafeAreaView, useSafeAreaInsets } from 'react-native-safe-area-context';
 
 const CARD_HEIGHT = 120;
 const TITLE_HEIGHT = 80;
@@ -29,6 +29,16 @@ export default function ScrollAnimationPage() {
     console.info(scrollY.value);
   });
 
+  const headerTitleStyle = useAnimatedStyle(() => {
+    return {
+      transform: [
+        {
+          translateY: interpolate(scrollY.value, [0, 160], [0, -80], Extrapolate.CLAMP),
+        },
+      ],
+    };
+  });
+
   const cardListStyle = useAnimatedStyle(() => {
     return {
       top: Math.max(0, -(scrollY.value - TITLE_HEIGHT)),
@@ -38,15 +48,17 @@ export default function ScrollAnimationPage() {
   const cardStyle = useAnimatedStyle(() => {
     return {
       paddingHorizontal: interpolate(scrollY.value, [0, 80], [16, 0], Extrapolate.CLAMP),
+      height: interpolate(scrollY.value, [0, 80], [CARD_HEIGHT, CARD_HEIGHT + insets.top], Extrapolate.CLAMP),
     };
   });
 
   const cardContentStyle = useAnimatedStyle(() => {
     const radius = interpolate(scrollY.value, [0, 80], [24, 0], Extrapolate.CLAMP);
+
     return {
       borderTopLeftRadius: radius,
       borderTopRightRadius: radius,
-      height: interpolate(scrollY.value, [0, 80], [CARD_HEIGHT, CARD_HEIGHT + insets.top], Extrapolate.CLAMP),
+      paddingBottom: interpolate(scrollY.value, [0, 80], [0, 20], Extrapolate.CLAMP),
     };
   });
 
@@ -69,11 +81,7 @@ export default function ScrollAnimationPage() {
         )}
         ListHeaderComponent={() => (
           <Box>
-            <View style={{ height: TITLE_HEIGHT, justifyContent: 'center' }}>
-              <Heading alignItems='center' fontSize={32} fontWeight='$extrabold' px={'$4'}>
-                List Header Component
-              </Heading>
-            </View>
+            <View style={{ height: TITLE_HEIGHT }} />
             <View style={{ height: CARD_HEIGHT }} />
             <Box p={'$4'} />
           </Box>
@@ -81,6 +89,14 @@ export default function ScrollAnimationPage() {
         scrollEventThrottle={16}
         onScroll={scrollHandler}
       />
+
+      <Animated.View
+        style={[{ position: 'absolute', top: 0, height: TITLE_HEIGHT, justifyContent: 'center' }, headerTitleStyle]}
+      >
+        <Heading alignItems='center' fontSize={32} fontWeight='$extrabold' px={'$4'}>
+          List Header Component
+        </Heading>
+      </Animated.View>
 
       <Animated.FlatList
         style={[{ position: 'absolute', top: 0, left: 0 }, cardListStyle]}
@@ -95,7 +111,8 @@ export default function ScrollAnimationPage() {
                   backgroundColor: item.color,
                   borderRadius: 24,
                   position: 'relative',
-                  justifyContent: 'center',
+                  justifyContent: 'flex-end',
+
                   paddingHorizontal: 24,
                   overflow: 'hidden',
                 },
@@ -113,10 +130,12 @@ export default function ScrollAnimationPage() {
                 top={-60}
                 flexWrap='nowrap'
               />
-              <Text fontWeight='$bold' fontSize={24}>
-                Current Balance
-              </Text>
-              <Text>{item.balance.toLocaleString()}</Text>
+              <Box pb={'$4'}>
+                <Text fontWeight='$bold' fontSize={24}>
+                  Current Balance
+                </Text>
+                <Text>{item.balance.toLocaleString()}</Text>
+              </Box>
             </Animated.View>
           </Animated.View>
         )}

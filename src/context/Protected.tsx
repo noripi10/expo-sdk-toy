@@ -1,5 +1,6 @@
 import { Redirect, useRouter, useSegments } from 'expo-router';
 import { Dispatch, SetStateAction, createContext, PropsWithChildren, useState, useEffect, useContext } from 'react';
+import Constants from 'expo-constants';
 
 // expo router authentication doc
 // https://docs.expo.dev/router/reference/authentication/
@@ -20,11 +21,14 @@ export const ProtectedProvider = ({ children }: PropsWithChildren) => {
   const router = useRouter();
   const segments = useSegments();
   // TODO 本来はNull
-  const [user, setUser] = useState<User | undefined | null>();
-  // {
-  //   id: '123',
-  //   name: 'noripi10',
-  // }
+  const [user, setUser] = useState<User | undefined | null>(
+    Constants.expoConfig?.extra?.UN_AUTHENTICATION === '1'
+      ? {
+          id: '123',
+          name: 'noripi10',
+        }
+      : undefined
+  );
 
   useEffect(() => {
     const segment = segments[0];
