@@ -145,6 +145,22 @@ const Links = () => {
           </Pressable>
         </Link>
 
+        <Link asChild href='/bottom-sheet'>
+          <Pressable>
+            {({ pressed }) => (
+              <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+                <FontAwesome
+                  name='info-circle'
+                  size={25}
+                  color={Colors[customColorScheme ?? 'light'].text}
+                  style={{ marginRight: 15, opacity: pressed ? 0.5 : 1 }}
+                />
+                <Text>Go to Bottom-Sheet</Text>
+              </View>
+            )}
+          </Pressable>
+        </Link>
+
         <Link asChild href='/scroll-animation'>
           <Pressable>
             {({ pressed }) => (
