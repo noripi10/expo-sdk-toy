@@ -11,7 +11,14 @@ import {
   Heading,
 } from '@gluestack-ui/themed';
 
-import BottomSheet, { BottomSheetFlatList, BottomSheetFooter, useBottomSheetSpringConfigs } from '@gorhom/bottom-sheet';
+import BottomSheet, {
+  BottomSheetFlatList,
+  BottomSheetFooter,
+  useBottomSheetSpringConfigs,
+  BottomSheetHandleProps,
+  BottomSheetBackdropProps,
+  BottomSheetBackdrop,
+} from '@gorhom/bottom-sheet';
 import { useFocusEffect } from '@react-navigation/native';
 import { memo, useMemo, useRef, useState } from 'react';
 
@@ -45,36 +52,96 @@ const BottomListItem = memo(
     const WrapperContainer = useMemo(() => (onPress ? Pressable : Box), [onPress]);
 
     return (
-      <WrapperContainer bgColor={`${faker.color.rgb()}`} flex={1} onPress={onPress} width={200} height={160}>
-        <Box flex={1} p='$0' m='$0'>
-          {/* <Image
-            source={{ uri: faker.image.url() }}
-            style={[StyleSheet.absoluteFillObject, { flex: 1 }]}
+      <WrapperContainer
+        position='relative'
+        bgColor={`${faker.color.rgb()}`}
+        flex={1}
+        onPress={onPress}
+        width={200}
+        height={160}
+      >
+        <Box flex={1} style={StyleSheet.absoluteFillObject}>
+          <Image
+            alt={item.name}
+            style={{ flex: 1, width: '100%', aspectRatio: 16 / 9, opacity: 0.7 }}
+            source={{ uri: item.image }}
             resizeMode='cover'
-            resizeMethod='auto'
-            borderRadius={8}
-            w='$full'
-            h='$full'
-          /> */}
-          <Box>
-            <Text color='#fff'>{index}</Text>
-            {Object.entries(item).map(([key, value]) => (
-              <Box key={key}>
-                <Text color='#fff'>
-                  {key}: {value}
-                </Text>
-              </Box>
-            ))}
-          </Box>
+          />
+        </Box>
+        <Box flex={1} p='$0' m='$0' justifyContent='flex-end'>
+          <Text color='#fff'>{index}</Text>
+          {Object.entries(item).map(([key, value]) => (
+            <Box key={key}>
+              <Text color='#fff'>
+                {key}: {value}
+              </Text>
+            </Box>
+          ))}
         </Box>
       </WrapperContainer>
     );
   }
 );
 
+const ButtomSheetBackDrop = memo((props: BottomSheetBackdropProps) => {
+  return <BottomSheetBackdrop {...props} disappearsOnIndex={-1} pressBehavior={'close'} />;
+});
+
+const BottomSheetHandle = memo(({ animatedIndex }: BottomSheetHandleProps) => {
+  const handleLeftAnimatedStyle = useAnimatedStyle(() => {
+    const rotate = interpolate(animatedIndex.value, [0, 1], [-30, 30], Extrapolate.CLAMP);
+    const translateX = interpolate(animatedIndex.value, [0, 1], [2, 2]);
+    return {
+      transform: [{ rotate: `${rotate}deg` }, { translateX }],
+    };
+  }, []);
+
+  const handleRightAnimatedStyle = useAnimatedStyle(() => {
+    const rotate = interpolate(animatedIndex.value, [0, 1], [30, -30], Extrapolate.CLAMP);
+    const translateX = interpolate(animatedIndex.value, [0, 1], [-2, -2]);
+
+    return {
+      transform: [{ rotate: `${rotate}deg` }, { translateX }],
+    };
+  }, []);
+
+  return (
+    <Animated.View
+      renderToHardwareTextureAndroid
+      style={{ justifyContent: 'center', alignItems: 'center', paddingVertical: 14, flexDirection: 'row' }}
+    >
+      <Animated.View
+        style={[
+          {
+            width: 10,
+            height: 4,
+            backgroundColor: '#fff',
+            borderTopLeftRadius: 2,
+            borderBottomLeftRadius: 2,
+          },
+          handleLeftAnimatedStyle,
+        ]}
+      />
+      <Animated.View
+        style={[
+          {
+            width: 10,
+            height: 4,
+            backgroundColor: '#fff',
+            borderTopRightRadius: 2,
+            borderBottomRightRadius: 2,
+          },
+          handleRightAnimatedStyle,
+        ]}
+      />
+    </Animated.View>
+  );
+});
+
 export default function BottomSheetPage() {
   const dimentions = useWindowDimensions();
   const colorMode = useColorMode();
+  const data = useMemo(() => createMockData(), []);
 
   const bottomSheetRef = useRef<BottomSheet>(null);
 
@@ -82,7 +149,7 @@ export default function BottomSheetPage() {
   const [enableContentPanningGesture, setEnableContentPanningGesture] = useState(true);
   const [enableHandlePanningGesture, setEnableHandlePanningGesture] = useState(true);
   const [currentSnapPoint, setCurrentSnapPoint] = useState(-1);
-  //#region
+  //#endregion
 
   // #region variables
   const snapPoints = useMemo(() => ['25%', '45%'], []);
@@ -103,32 +170,14 @@ export default function BottomSheetPage() {
   });
   //#endregion
 
-  const data = useMemo(() => createMockData(), []);
   const renderFlatListItem = ({ item, index }: { item: (typeof data)[0]; index: number }) => (
     <BottomListItem {...{ item, index, dimentions }} />
   );
 
-  const animatedIndex = useSharedValue(-1);
+  const customAnimatedIndex = useSharedValue(-1);
   const containerAnimatedStyle = useAnimatedStyle(() => {
     return {
-      backgroundColor: interpolateColor(animatedIndex.value, [-1, 0, 1], ['transparent', '#a8b5eb', '#a8cfff']),
-    };
-  }, []);
-
-  const handleLeftAnimatedStyle = useAnimatedStyle(() => {
-    const rotate = interpolate(animatedIndex.value, [0, 1], [-30, 30], Extrapolate.CLAMP);
-    const translateX = interpolate(animatedIndex.value, [0, 1], [2, 2]);
-    return {
-      transform: [{ rotate: `${rotate}deg` }, { translateX }],
-    };
-  }, []);
-
-  const handleRightAnimatedStyle = useAnimatedStyle(() => {
-    const rotate = interpolate(animatedIndex.value, [0, 1], [30, -30], Extrapolate.CLAMP);
-    const translateX = interpolate(animatedIndex.value, [0, 1], [-2, -2]);
-
-    return {
-      transform: [{ rotate: `${rotate}deg` }, { translateX }],
+      backgroundColor: interpolateColor(customAnimatedIndex.value, [-1, 0, 1], ['transparent', '#a8b5eb', '#a8cfff']),
     };
   }, []);
 
@@ -178,7 +227,7 @@ export default function BottomSheetPage() {
         enableHandlePanningGesture={enableHandlePanningGesture}
         onAnimate={(from, to) => {
           // onChangeよりも先に発火
-          animatedIndex.value = withTiming(to);
+          customAnimatedIndex.value = withTiming(to);
         }}
         onChange={(snapPoint) => {
           setCurrentSnapPoint(snapPoint);
@@ -188,46 +237,8 @@ export default function BottomSheetPage() {
         backgroundStyle={{
           backgroundColor: colorMode === 'dark' ? '#222' : '#fff',
         }}
-        // footerComponent={(props) => {
-        //   return (
-        //     <BottomSheetFooter {...props} bottomInset={24}>
-
-        //     </BottomSheetFooter>
-        //   );
-        // }}
-        // handleComponent={(props) => {
-        //   return (
-        //     <Animated.View
-        //       renderToHardwareTextureAndroid
-        //       style={{ justifyContent: 'center', alignItems: 'center', paddingVertical: 14, flexDirection: 'row' }}
-        //     >
-        //       <Animated.View
-        //         style={[
-        //           {
-        //             width: 10,
-        //             height: 4,
-        //             backgroundColor: '#fff',
-        //             borderTopLeftRadius: 2,
-        //             borderBottomLeftRadius: 2,
-        //           },
-        //           handleLeftAnimatedStyle,
-        //         ]}
-        //       />
-        //       <Animated.View
-        //         style={[
-        //           {
-        //             width: 10,
-        //             height: 4,
-        //             backgroundColor: '#fff',
-        //             borderTopRightRadius: 2,
-        //             borderBottomRightRadius: 2,
-        //           },
-        //           handleRightAnimatedStyle,
-        //         ]}
-        //       />
-        //     </Animated.View>
-        //   );
-        // }}
+        // backdropComponent={(props) => <ButtomSheetBackDrop {...props} />}
+        handleComponent={(props) => <BottomSheetHandle {...props} />}
         // style={
         //   {
         //     shadowColor: '#000',
@@ -265,10 +276,10 @@ export default function BottomSheetPage() {
           <Button flex={1}>
             <ButtonText>Favarite</ButtonText>
           </Button>
-          <Button flex={1}>
+          <Button flex={1} action='negative'>
             <ButtonText>Go to Site</ButtonText>
           </Button>
-          <Button flex={1}>
+          <Button flex={1} action='positive'>
             <ButtonText>Route</ButtonText>
           </Button>
         </ButtonGroup>
