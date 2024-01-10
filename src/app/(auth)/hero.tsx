@@ -20,7 +20,7 @@ export default function Hero() {
   };
 
   return (
-    <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
+    <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center', gap: 10 }}>
       <>
         <Text style={{ fontSize: 32, fontWeight: 'bold' }}>Hero Page</Text>
 
@@ -30,6 +30,10 @@ export default function Hero() {
           <Button title='Change English' onPress={() => localeHandler('en')} />
           <Button title='Change Japanese' onPress={() => localeHandler('ja')} />
         </View>
+
+        <Pressable onPress={() => router.replace('/(auth)/nurie')}>
+          {() => <Text style={{ fontSize: 18, textDecorationLine: 'underline' }}>Go To Nurie</Text>}
+        </Pressable>
 
         <Pressable onPress={() => router.replace('/(auth)/sign-in')}>
           {() => <Text style={{ fontSize: 18, textDecorationLine: 'underline' }}>Go To Sign-In</Text>}

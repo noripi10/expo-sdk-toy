@@ -1,5 +1,5 @@
 import React, { useContext, useLayoutEffect, useState } from 'react';
-import { Pressable, StyleSheet } from 'react-native';
+import { Pressable, StyleSheet, Image, Dimensions } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { Link, useRouter } from 'expo-router';
 import { FontAwesome } from '@expo/vector-icons';
@@ -16,6 +16,7 @@ import {
   SunIcon,
   ScrollView,
   Box,
+  Center,
 } from '@gluestack-ui/themed';
 import { View, Text } from '@/components/Themed';
 import Colors from '@/constants/Colors';
@@ -25,6 +26,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import { CustomThemeContext } from '@/context/Theme';
 import { Sound } from '@/components/Sound';
 import Animated from 'react-native-reanimated';
+import { avatarImagebase64 } from '@/constants/image';
 
 export default function Menu() {
   const { top } = useSafeAreaInsets();
