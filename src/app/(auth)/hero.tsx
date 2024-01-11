@@ -20,7 +20,7 @@ export default function Hero() {
   };
 
   return (
-    <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center', gap: 10 }}>
+    <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center', gap: 32 }}>
       <>
         <Text style={{ fontSize: 32, fontWeight: 'bold' }}>Hero Page</Text>
 
