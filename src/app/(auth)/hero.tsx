@@ -1,7 +1,7 @@
-import { Button, Pressable } from 'react-native';
-import { useRouter } from 'expo-router';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { useRouter } from 'expo-router';
 import Updates from 'expo-updates';
+import { Button, Pressable } from 'react-native';
 
 import { Text, View } from '@/components/Themed';
 import { t } from '@/libs/i18n';

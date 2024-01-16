@@ -4,11 +4,11 @@ import {
   ButtonGroup,
   ButtonText,
   Center,
+  Heading,
+  Image,
   Pressable,
   Text,
   useColorMode,
-  Image,
-  Heading,
 } from '@gluestack-ui/themed';
 
 import BottomSheet, {
@@ -23,7 +23,7 @@ import { useFocusEffect } from '@react-navigation/native';
 import { memo, useMemo, useRef, useState } from 'react';
 
 import { faker } from '@faker-js/faker';
-import { ScaledSize, useWindowDimensions, StyleSheet, FlatList } from 'react-native';
+import { FlatList, ScaledSize, StyleSheet, useWindowDimensions } from 'react-native';
 import Animated, {
   Extrapolate,
   interpolate,

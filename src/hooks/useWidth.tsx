@@ -10,13 +10,15 @@ export const useWidth = () => {
 
   if (width > 1920) {
     return 1920;
-  } else if (width > 1024) {
-    return 1024;
-  } else if (width > 768) {
-    return 768;
-  } else if (width > 540) {
-    return 540;
-  } else {
-    return 320;
   }
+  if (width > 1024) {
+    return 1024;
+  }
+  if (width > 768) {
+    return 768;
+  }
+  if (width > 540) {
+    return 540;
+  }
+  return 320;
 };

@@ -24,7 +24,7 @@ export const Sound = () => {
     duration = `${date.getMinutes()}分${date.getSeconds()}秒`;
   }
 
-  useEffect(() => {}, [audioState]);
+  // useEffect(() => {}, [audioState]);
 
   return (
     <VStack alignItems='center' gap={'$0.5'} borderColor='$blueGray700' borderWidth={1} p={'$1'}>

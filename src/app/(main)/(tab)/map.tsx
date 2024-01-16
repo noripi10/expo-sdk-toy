@@ -3,11 +3,11 @@ import { memo, useEffect, useRef, useState } from 'react';
 import { Alert, DimensionValue, Dimensions, FlatList, ScrollView, StyleSheet } from 'react-native';
 import MapView, { LatLng, MapMarker, Marker, Region } from 'react-native-maps';
 
-import type { GeoJsonProperties } from 'geojson';
-import { useClusterer, type supercluster } from 'react-native-clusterer';
 import { GifuStations, StationProp } from '@/constants/map';
+import { FontAwesome } from '@expo/vector-icons';
+import type { GeoJsonProperties } from 'geojson';
+import { type supercluster, useClusterer } from 'react-native-clusterer';
 import { MapDimensions } from 'react-native-clusterer/lib/typescript/types';
-import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import Animated, {
   Easing,
   FadeIn,
@@ -19,7 +19,7 @@ import Animated, {
   withRepeat,
   withTiming,
 } from 'react-native-reanimated';
-import { FontAwesome } from '@expo/vector-icons';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 type GeoJson = supercluster.PointFeature<GeoJsonProperties> | supercluster.ClusterFeatureClusterer<GeoJsonProperties>;
 const toGeoJson = (stationProps: StationProp): GeoJson => ({
@@ -207,17 +207,20 @@ export default function MayPage() {
 const getMarkerSize = (count: number): DimensionValue => {
   if (count > 100) {
     return 72;
-  } else if (count > 50) {
-    return 64;
-  } else if (count > 30) {
-    return 56;
-  } else if (count > 20) {
-    return 48;
-  } else if (count > 10) {
-    return 40;
-  } else {
-    return 32;
   }
+  if (count > 50) {
+    return 64;
+  }
+  if (count > 30) {
+    return 56;
+  }
+  if (count > 20) {
+    return 48;
+  }
+  if (count > 10) {
+    return 40;
+  }
+  return 32;
 };
 
 const ClustererMarker = memo(
@@ -257,7 +260,7 @@ const ClustererMarker = memo(
       return () => {
         animationValue.value = 1;
       };
-    }, [isSelected]);
+    }, [animationValue, isSelected]);
 
     return (
       <Marker

@@ -139,7 +139,7 @@ export const useNotification = () => {
 
       registerTestCategory();
     })();
-  }, [expoPushToken]);
+  }, [expoPushToken, registerTestCategory]);
 
   return { expoPushToken, isNofification, requestPermissions, testScheduleNotification };
 };

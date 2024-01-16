@@ -1,12 +1,12 @@
 import { PropsWithChildren, useContext, useEffect } from 'react';
 
+import FontAwesome from '@expo/vector-icons/FontAwesome';
+import { useFonts } from 'expo-font';
 import * as Notifications from 'expo-notifications';
 import { Slot, SplashScreen, useRouter } from 'expo-router';
-import { useFonts } from 'expo-font';
-import FontAwesome from '@expo/vector-icons/FontAwesome';
 
-import { GluestackUIProvider } from '@gluestack-ui/themed';
 import { config } from '@gluestack-ui/config';
+import { GluestackUIProvider } from '@gluestack-ui/themed';
 import { DarkTheme, DefaultTheme, ThemeProvider as NavigationThemeProvider } from '@react-navigation/native';
 
 import { ProtectedProvider } from '@/context/Protected';
@@ -16,9 +16,9 @@ import { KeyboardProvider } from 'react-native-keyboard-controller';
 
 import { CustomThemeContext, CustomThemeProvider } from '@/context/Theme';
 
+import { Sound } from '@/components/Sound';
 // ★ SetUp Task Manager ★
 import '@/libs/task';
-import { Sound } from '@/components/Sound';
 import { LogBox } from 'react-native';
 
 LogBox.ignoreAllLogs();
@@ -87,7 +87,7 @@ function RootLayout() {
       subscribe.remove();
       subscribe2.remove();
     };
-  }, []);
+  }, [router]);
 
   if (!loaded || !customColorScheme) {
     return null;

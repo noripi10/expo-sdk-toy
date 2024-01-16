@@ -1,32 +1,32 @@
-import React, { useContext, useLayoutEffect, useState } from 'react';
-import { Pressable, StyleSheet, Image, Dimensions } from 'react-native';
-import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import { Link, useRouter } from 'expo-router';
 import { FontAwesome } from '@expo/vector-icons';
 import * as FileSystem from 'expo-file-system';
+import { Link, useRouter } from 'expo-router';
+import React, { useContext, useLayoutEffect, useState } from 'react';
+import { Dimensions, Image, Pressable, StyleSheet } from 'react-native';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
+import { Sound } from '@/components/Sound';
+import { Text, View } from '@/components/Themed';
+import Colors from '@/constants/Colors';
+import { avatarImagebase64 } from '@/constants/image';
+import { CustomThemeContext } from '@/context/Theme';
+import { useNotification } from '@/hooks/useNotification';
+import { useWidth } from '@/hooks/useWidth';
 import {
   Alert,
   AlertIcon,
   AlertText,
+  BellIcon,
+  Box,
   Button,
   ButtonText,
-  InfoIcon,
-  BellIcon,
-  SunIcon,
-  ScrollView,
-  Box,
   Center,
+  InfoIcon,
+  ScrollView,
+  SunIcon,
 } from '@gluestack-ui/themed';
-import { View, Text } from '@/components/Themed';
-import Colors from '@/constants/Colors';
-import { useWidth } from '@/hooks/useWidth';
-import { useNotification } from '@/hooks/useNotification';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { CustomThemeContext } from '@/context/Theme';
-import { Sound } from '@/components/Sound';
 import Animated from 'react-native-reanimated';
-import { avatarImagebase64 } from '@/constants/image';
 
 export default function Menu() {
   const { top } = useSafeAreaInsets();

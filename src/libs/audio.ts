@@ -1,7 +1,7 @@
 import { Audio, InterruptionModeAndroid, InterruptionModeIOS } from 'expo-av';
 
 class AudioManager {
-  private isSetup: boolean = false;
+  private isSetup = false;
   private sound: Audio.Sound | undefined = undefined;
 
   initialize = async () => {

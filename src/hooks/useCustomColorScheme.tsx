@@ -1,6 +1,6 @@
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useEffect, useState } from 'react';
 import { ColorSchemeName, useColorScheme } from 'react-native';
-import AsyncStorage from '@react-native-async-storage/async-storage';
 
 export const useCustomColorScheme = () => {
   const [customColorScheme, setCustomColorScheme] = useState<ColorSchemeName>();
@@ -14,7 +14,7 @@ export const useCustomColorScheme = () => {
         setCustomColorScheme('dark');
       }
     });
-  }, []);
+  }, [nativeColorScheme]);
 
   const changeCustomScheme = async (newColorScheme: ColorSchemeName) => {
     try {

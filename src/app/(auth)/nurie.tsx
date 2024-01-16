@@ -4,7 +4,6 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import { useRouter } from 'expo-router';
 
-import ColorPicker, { Panel1, Swatches, Preview, OpacitySlider, HueSlider, Panel3 } from 'reanimated-color-picker';
 import { Box, Button, ButtonText, Center, Divider, HStack, Heading } from '@gluestack-ui/themed';
 import BottomSheet, {
   BottomSheetFlatList,
@@ -15,11 +14,12 @@ import BottomSheet, {
   BottomSheetBackdrop,
   BottomSheetView,
 } from '@gorhom/bottom-sheet';
-import { Skia, Canvas, Image as SkiaImage, useCanvasRef, SkImage } from '@shopify/react-native-skia';
+import { Canvas, Image as SkiaImage, SkImage, Skia, useCanvasRef } from '@shopify/react-native-skia';
+import ColorPicker, { Panel1, Swatches, Preview, OpacitySlider, HueSlider, Panel3 } from 'reanimated-color-picker';
 
-import useNurieCanvas from '@/hooks/useNurieCanvas';
 import Shape from '@/components/Shape';
 import { hououImageBase64 } from '@/constants/image';
+import useNurieCanvas from '@/hooks/useNurieCanvas';
 import { StatusBar } from 'expo-status-bar';
 
 const width = Dimensions.get('window').width;
@@ -94,7 +94,7 @@ export default function NuriePage() {
         <SkiaImage image={nurieImage} fit='fitWidth' x={0} y={0} width={width} height={height} />
 
         {shapes.map((shape, index) => (
-          <Shape key={index} {...shape} />
+          <Shape key={index.toString()} {...shape} />
         ))}
         {currentShape && <Shape {...currentShape} />}
       </Canvas>

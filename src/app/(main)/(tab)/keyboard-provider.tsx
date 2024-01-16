@@ -2,18 +2,18 @@ import { useEffect, useMemo, useRef, useState } from 'react';
 import { Dimensions, StyleSheet, TextInputSelectionChangeEventData } from 'react-native';
 import { TextInput } from 'react-native';
 
-import Animated, { runOnJS, useAnimatedStyle, useDerivedValue } from 'react-native-reanimated';
-import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import {
   KeyboardAvoidingView,
   useKeyboardHandler,
   useReanimatedKeyboardAnimation,
 } from 'react-native-keyboard-controller';
+import Animated, { runOnJS, useAnimatedStyle, useDerivedValue } from 'react-native-reanimated';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import { Box, HStack, Switch, Text } from '@gluestack-ui/themed';
 
-import { KeyBoardAccessory } from '@/components/KeyBoardAccessory';
 import EditScreenInfo from '@/components/EditScreenInfo';
+import { KeyBoardAccessory } from '@/components/KeyBoardAccessory';
 
 const { width: WIDTH, height: HEIGHT } = Dimensions.get('window');
 

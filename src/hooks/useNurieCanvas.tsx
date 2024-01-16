@@ -53,7 +53,7 @@ const useNurieCanvas = ({ paintStyle, tool }: { paintStyle: IPaintStyle; tool: k
       currentShape.current = newShape;
       reRender((old) => old + 1); // Force re-render to render the current shape
     },
-    [tool, paintStyle]
+    [createShape]
   );
 
   // Callback function when drawing is in progress
@@ -81,7 +81,7 @@ const useNurieCanvas = ({ paintStyle, tool }: { paintStyle: IPaintStyle; tool: k
         currentShape.current.coordinates.y = y;
       }
     },
-    [tool, paintStyle]
+    [tool]
   );
 
   // Callback function when drawing ends
@@ -109,7 +109,7 @@ const useNurieCanvas = ({ paintStyle, tool }: { paintStyle: IPaintStyle; tool: k
 
     // @ts-ignore
     currentShape.current = null;
-  }, [tool, paintStyle]);
+  }, [tool, sharedValue]);
 
   // Touch handler for handling touch events on the canvas
   const touchHandler = useTouchHandler(

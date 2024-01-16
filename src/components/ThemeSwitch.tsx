@@ -57,7 +57,7 @@ export const ThemeSwitch = () => {
       setOverlay1(null);
       setOverlay2(null);
     },
-    [customColorScheme]
+    [customColorScheme, changeCustomScheme, ref, setOverlay1, setOverlay2, circle, transition]
   );
 
   const tap = Gesture.Tap()

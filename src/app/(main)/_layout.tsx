@@ -1,14 +1,14 @@
 import { withLayoutContext } from 'expo-router';
 
-import { ParamListBase, StackNavigationState } from '@react-navigation/native';
-import {
-  createStackNavigator,
-  StackNavigationOptions,
-  StackNavigationEventMap,
-  TransitionPresets,
-} from '@react-navigation/stack';
 import { FontAwesome } from '@expo/vector-icons';
 import { Pressable } from '@gluestack-ui/themed';
+import { ParamListBase, StackNavigationState } from '@react-navigation/native';
+import {
+  StackNavigationEventMap,
+  StackNavigationOptions,
+  TransitionPresets,
+  createStackNavigator,
+} from '@react-navigation/stack';
 
 const { Navigator } = createStackNavigator();
 

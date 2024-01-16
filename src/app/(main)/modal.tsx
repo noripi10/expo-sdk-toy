@@ -2,9 +2,9 @@ import { Dimensions, Platform, StyleSheet } from 'react-native';
 
 import EditScreenInfo from '@/components/EditScreenInfo';
 import { Text, View } from '@/components/Themed';
+import { Heading } from '@gluestack-ui/themed';
 import { Link } from 'expo-router';
 import Animated from 'react-native-reanimated';
-import { Heading } from '@gluestack-ui/themed';
 
 const { width: WIDTH } = Dimensions.get('window');
 

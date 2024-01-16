@@ -1,6 +1,8 @@
+import { Text } from '@/components/Themed';
+import { Expense, allCards, allExpenses } from '@/constants/data';
+import FeatherIcons from '@expo/vector-icons/Feather';
 import { setStatusBarStyle } from 'expo-status-bar';
 import { StyleSheet, TouchableOpacity, View, useWindowDimensions } from 'react-native';
-import { SafeAreaView, useSafeAreaInsets } from 'react-native-safe-area-context';
 import Animated, {
   Extrapolate,
   interpolate,
@@ -10,9 +12,7 @@ import Animated, {
   useDerivedValue,
   useSharedValue,
 } from 'react-native-reanimated';
-import FeatherIcons from '@expo/vector-icons/Feather';
-import { allExpenses, allCards, Expense } from '@/constants/data';
-import { Text } from '@/components/Themed';
+import { SafeAreaView, useSafeAreaInsets } from 'react-native-safe-area-context';
 
 const CARD_HEIGHT = 120;
 const TITLE_HEIGHT = 80;

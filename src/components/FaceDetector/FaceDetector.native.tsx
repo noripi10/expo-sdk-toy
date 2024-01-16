@@ -1,14 +1,14 @@
 import React, { ReactNode, useEffect, useRef, useState } from 'react';
-import { StyleSheet, Pressable } from 'react-native';
+import { Pressable, StyleSheet } from 'react-native';
 
 import { MaterialIcons } from '@expo/vector-icons';
 
 import { useIsFocused } from '@react-navigation/native';
-import Animated from 'react-native-reanimated';
 import { Camera, CameraType, FaceDetectionResult } from 'expo-camera';
 import * as Device from 'expo-device';
 import * as ExpoFaceDetector from 'expo-face-detector';
 import { FaceFeature } from 'expo-face-detector';
+import Animated from 'react-native-reanimated';
 
 import { keyMapping } from '@/libs/object';
 import { Text, View } from '../Themed';
@@ -30,7 +30,7 @@ export default function FaceDetector() {
     if (!isFucus) {
       setPause(true);
     }
-  }, [isFucus]);
+  }, [isFucus, requestPermission]);
 
   if (!Device.isDevice) {
     return (

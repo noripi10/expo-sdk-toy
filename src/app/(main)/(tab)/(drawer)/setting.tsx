@@ -6,24 +6,24 @@ import Animated, {
   withTiming,
 } from 'react-native-reanimated';
 
-import { useRouter } from 'expo-router';
 import { FontAwesome } from '@expo/vector-icons';
+import { useRouter } from 'expo-router';
 
-import {
-  Button,
-  ButtonText,
-  ButtonIcon,
-  ButtonGroup,
-  ButtonSpinner,
-  Heading,
-  Switch,
-  Center,
-  Box,
-  Text,
-} from '@gluestack-ui/themed';
 import { View } from '@/components/Themed';
 import { useAuth } from '@/context/Protected';
 import { useUpdateSettings } from '@/hooks/useUpdateSettings';
+import {
+  Box,
+  Button,
+  ButtonGroup,
+  ButtonIcon,
+  ButtonSpinner,
+  ButtonText,
+  Center,
+  Heading,
+  Switch,
+  Text,
+} from '@gluestack-ui/themed';
 import { useCallback, useEffect, useMemo } from 'react';
 
 export default function Settings() {
@@ -54,7 +54,7 @@ export default function Settings() {
     return () => {
       cancelAnimation(animatedValue);
     };
-  }, []);
+  }, [animatedValue]);
 
   return (
     <View style={{ flex: 1, alignItems: 'center', padding: 8 }}>

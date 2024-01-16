@@ -13,7 +13,10 @@
     "sharp": "ts-node --project tsconfig.dev.json sharp.ts",
     "plop": "plop",
     "maestro:ios": "maestro test .maestro/ios-flow.yml",
-    "maestro:studio": "maestro studio"
+    "maestro:studio": "maestro studio",
+    "format": "bunx @biomejs/biome format --write ./src",
+    "lint": "bunx @biomejs/biome lint --apply-unsafe ./src",
+    "check": "bunx @biomejs/biome check --apply ./src"
   },
   "jest": {
     "preset": "jest-expo"
@@ -76,6 +79,7 @@
   },
   "devDependencies": {
     "@babel/core": "^7.20.0",
+    "@biomejs/biome": "1.5.2",
     "@faker-js/faker": "^8.3.1",
     "@types/react": "~18.2.14",
     "gh-pages": "^5.0.0",

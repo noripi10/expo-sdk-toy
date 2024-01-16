@@ -1,6 +1,6 @@
-import { Redirect, useRouter, useSegments } from 'expo-router';
-import { Dispatch, SetStateAction, createContext, PropsWithChildren, useState, useEffect, useContext } from 'react';
 import Constants from 'expo-constants';
+import { Redirect, useRouter, useSegments } from 'expo-router';
+import { Dispatch, PropsWithChildren, SetStateAction, createContext, useContext, useEffect, useState } from 'react';
 
 // expo router authentication doc
 // https://docs.expo.dev/router/reference/authentication/

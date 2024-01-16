@@ -1,6 +1,6 @@
-import * as TaskManager from 'expo-task-manager';
-import * as Notifications from 'expo-notifications';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import * as Notifications from 'expo-notifications';
+import * as TaskManager from 'expo-task-manager';
 
 const BACKGROUND_NOTIFICATION_TASK = 'BACKGROUND-NOTIFICATION-TASK';
 

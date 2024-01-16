@@ -1,5 +1,5 @@
-import { useEffect, useState } from 'react';
 import { AVPlaybackStatusSuccess, Audio } from 'expo-av';
+import { useEffect, useState } from 'react';
 
 import audio from '@/libs/audio';
 

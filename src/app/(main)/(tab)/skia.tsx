@@ -59,9 +59,9 @@
 //   );
 // }
 
-import { useWindowDimensions } from 'react-native';
 import { Canvas, Circle, Fill } from '@shopify/react-native-skia';
-import { GestureDetector, Gesture } from 'react-native-gesture-handler';
+import { useWindowDimensions } from 'react-native';
+import { Gesture, GestureDetector } from 'react-native-gesture-handler';
 import { useSharedValue, withDecay } from 'react-native-reanimated';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 // import { useBottomTabBarHeight } from '@react-navigation/bottom-tabs';

@@ -1,7 +1,7 @@
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import { getLocales } from 'expo-localization';
 import { I18n } from 'i18n-js';
 import { TranslateOptions } from 'i18n-js/typings/typing';
-import AsyncStorage from '@react-native-async-storage/async-storage';
 import { Platform } from 'react-native';
 
 export const i18n = new I18n({

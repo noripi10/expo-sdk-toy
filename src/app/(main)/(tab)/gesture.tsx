@@ -1,9 +1,9 @@
+import { Button, ButtonText } from '@gluestack-ui/themed';
 import React from 'react';
 import { StyleSheet, View, useWindowDimensions } from 'react-native';
-import Animated, { useAnimatedStyle, useSharedValue, withDecay } from 'react-native-reanimated';
 import { Gesture, GestureDetector, GestureHandlerRootView } from 'react-native-gesture-handler';
+import Animated, { useAnimatedStyle, useSharedValue, withDecay } from 'react-native-reanimated';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import { Button, ButtonText } from '@gluestack-ui/themed';
 
 const SIZE = 120;
 

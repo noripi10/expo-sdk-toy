@@ -1,6 +1,6 @@
-import { Image, StyleSheet } from 'react-native';
 import { ImageFrame } from '@/components/svg';
 import { Box, ButtonText, Center, Text } from '@gluestack-ui/themed';
+import { Image, StyleSheet } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 const BORDER_WIDTH = 12;

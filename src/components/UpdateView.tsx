@@ -1,9 +1,9 @@
 import { useEffect, useState } from 'react';
 
-import * as Updates from 'expo-updates';
 import { Box, Button, ButtonText, HStack, Text } from '@gluestack-ui/themed';
-import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import * as Updates from 'expo-updates';
 import Animated, { FadeInUp } from 'react-native-reanimated';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 export const UpdateView = () => {
   const { top } = useSafeAreaInsets();
