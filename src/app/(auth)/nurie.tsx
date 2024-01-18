@@ -4,7 +4,26 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import { useRouter } from 'expo-router';
 
-import { Box, Button, ButtonText, Center, Divider, HStack, Heading } from '@gluestack-ui/themed';
+import {
+  Box,
+  Button,
+  ButtonText,
+  Center,
+  CircleIcon,
+  Divider,
+  HStack,
+  Heading,
+  Radio,
+  RadioGroup,
+  RadioIndicator,
+  RadioLabel,
+  Select,
+  Slider,
+  SliderFilledTrack,
+  SliderThumb,
+  SliderTrack,
+  VStack,
+} from '@gluestack-ui/themed';
 import BottomSheet, {
   BottomSheetFlatList,
   BottomSheetFooter,
@@ -20,6 +39,8 @@ import ColorPicker, { Panel1, Swatches, Preview, OpacitySlider, HueSlider, Panel
 import Shape from '@/components/Shape';
 import { hououImageBase64 } from '@/constants/image';
 import useNurieCanvas from '@/hooks/useNurieCanvas';
+import { Tools } from '@/types';
+import { RadioIcon } from '@gluestack-ui/themed';
 import { StatusBar } from 'expo-status-bar';
 
 const width = Dimensions.get('window').width;
@@ -38,14 +59,15 @@ export default function NuriePage() {
   const [nurieImage, setNurieImage] = useState<SkImage | null>(image);
   const [color, setColor] = useState('#000');
   const [strokeWidth, setStorokeWidth] = useState(4);
+  const [tool, setTool] = useState<keyof typeof Tools>('pen');
 
   // const [canvasLayout, setCanvasLayout] = useState<number>();
-  const { shapes, currentShape, touchHandler, onClear } = useNurieCanvas({
+  const { shapes, currentShape, touchHandler, onClear, undo, redo } = useNurieCanvas({
     paintStyle: {
-      strokeWidth: 4,
+      strokeWidth,
       color,
     },
-    tool: 'pen',
+    tool,
   });
 
   return (
@@ -56,30 +78,40 @@ export default function NuriePage() {
           <ButtonText>Go back</ButtonText>
         </Button>
 
-        <HStack gap={'$6'}>
-          <Button variant='link'>
-            <ButtonText onPress={() => bottomSheetRef.current?.expand()}>Change</ButtonText>
-          </Button>
+        <VStack>
+          <HStack gap={'$6'}>
+            <Button variant='link'>
+              <ButtonText onPress={() => bottomSheetRef.current?.expand()}>Change</ButtonText>
+            </Button>
 
-          <Button variant='link' onPress={() => router.replace('/(auth)/hero')}>
-            <ButtonText onPress={onClear}>Clear</ButtonText>
-          </Button>
+            <Button variant='link' onPress={() => router.replace('/(auth)/hero')}>
+              <ButtonText onPress={onClear}>Clear</ButtonText>
+            </Button>
 
-          <Button
-            variant='link'
-            onPress={() => {
-              const snapshot = canvasRef.current?.makeImageSnapshot();
-              // const base64 = snapshot?.encodeToBase64();
-              // console.info({ base64 });
-              if (snapshot) {
-                setNurieImage(snapshot);
-                onClear();
-              }
-            }}
-          >
-            <ButtonText>Save</ButtonText>
-          </Button>
-        </HStack>
+            <Button
+              variant='link'
+              onPress={() => {
+                const snapshot = canvasRef.current?.makeImageSnapshot();
+                // const base64 = snapshot?.encodeToBase64();
+                // console.info({ base64 });
+                if (snapshot) {
+                  setNurieImage(snapshot);
+                  onClear();
+                }
+              }}
+            >
+              <ButtonText>Save</ButtonText>
+            </Button>
+          </HStack>
+          <HStack gap={'$6'} justifyContent='flex-end'>
+            <Button variant='link'>
+              <ButtonText onPress={undo}>Undo</ButtonText>
+            </Button>
+            <Button variant='link'>
+              <ButtonText onPress={redo}>Redo</ButtonText>
+            </Button>
+          </HStack>
+        </VStack>
       </HStack>
 
       <Canvas
@@ -111,7 +143,55 @@ export default function NuriePage() {
       >
         <Box flex={1} bgColor='#fff'>
           <Box px={'$8'} py={'$5'}>
-            <Heading color='#000'>Color Picker</Heading>
+            <Heading color='#000'>Shape Setting</Heading>
+          </Box>
+          <Center>
+            {/* @ts-ignore */}
+            <RadioGroup flexDirection='row' gap={'$3'} onChange={(e) => setTool(e)} value={tool}>
+              <Radio value='circle' size='md'>
+                <RadioIndicator mr='$2'>
+                  <RadioIcon as={CircleIcon} />
+                </RadioIndicator>
+                <RadioLabel>circle</RadioLabel>
+              </Radio>
+
+              <Radio value='square' size='md'>
+                <RadioIndicator mr='$2'>
+                  <RadioIcon as={CircleIcon} />
+                </RadioIndicator>
+                <RadioLabel>square</RadioLabel>
+              </Radio>
+
+              <Radio value='pen' size='md'>
+                <RadioIndicator mr='$2'>
+                  <RadioIcon as={CircleIcon} />
+                </RadioIndicator>
+                <RadioLabel>pen</RadioLabel>
+              </Radio>
+
+              <Radio value='line' size='md'>
+                <RadioIndicator mr='$2'>
+                  <RadioIcon as={CircleIcon} />
+                </RadioIndicator>
+                <RadioLabel>line</RadioLabel>
+              </Radio>
+            </RadioGroup>
+          </Center>
+
+          <Box px={'$8'} py={'$5'}>
+            <Heading color='#000'>Line Width Setting</Heading>
+          </Box>
+          <Center px={'$6'}>
+            <Slider value={strokeWidth} size='md' orientation='horizontal' maxValue={10} onChange={setStorokeWidth}>
+              <SliderTrack>
+                <SliderFilledTrack />
+              </SliderTrack>
+              <SliderThumb />
+            </Slider>
+          </Center>
+
+          <Box px={'$8'} py={'$5'}>
+            <Heading color='#000'>Color Setting</Heading>
           </Box>
           <Box flex={1} alignItems='center'>
             <ColorPicker style={{ width: '80%' }} value={color} onComplete={(e) => setColor(e.rgba)}>

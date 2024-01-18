@@ -68,6 +68,10 @@ export default function AppLayout() {
         options={{ headerShown: true, headerTitle: 'Scroll2', title: 'SCROLL2' }}
       />
       <Drawer.Screen
+        name='scroll-animation_3'
+        options={{ headerShown: true, headerTitle: 'Scroll3', title: 'SCROLL3' }}
+      />
+      <Drawer.Screen
         name='bottom-sheet'
         options={{ headerShown: true, headerTitle: 'BottomSheet', title: 'BOTTOM SHEET' }}
       />
