@@ -3,11 +3,12 @@ import { PropsWithChildren, useContext, useEffect } from 'react';
 import FontAwesome from '@expo/vector-icons/FontAwesome';
 import { useFonts } from 'expo-font';
 import * as Notifications from 'expo-notifications';
-import { Slot, SplashScreen, useRouter } from 'expo-router';
+import { Slot, useRouter } from 'expo-router';
 
 import { config } from '@gluestack-ui/config';
 import { GluestackUIProvider } from '@gluestack-ui/themed';
 import { DarkTheme, DefaultTheme, ThemeProvider as NavigationThemeProvider } from '@react-navigation/native';
+import * as SplashScreen from 'expo-splash-screen';
 
 import { ProtectedProvider } from '@/context/Protected';
 
@@ -20,6 +21,7 @@ import { Sound } from '@/components/Sound';
 // ★ SetUp Task Manager ★
 import '@/libs/task';
 import { LogBox } from 'react-native';
+import { GestureHandlerRootView } from 'react-native-gesture-handler';
 
 LogBox.ignoreAllLogs();
 
@@ -40,25 +42,25 @@ function RootLayout() {
   const router = useRouter();
   const { customColorScheme } = useContext(CustomThemeContext);
 
-  const [loaded, error] = useFonts({
-    SpaceMono: require('@assets/fonts/SpaceMono-Regular.ttf'),
-    ...FontAwesome.font,
-  });
+  // const [loaded, error] = useFonts({
+  //   SpaceMono: require('@assets/fonts/SpaceMono-Regular.ttf'),
+  //   ...FontAwesome.font,
+  // });
 
   // Expo Router uses Error Boundaries to catch errors in the navigation tree.
-  useEffect(() => {
-    if (error) throw error;
-  }, [error]);
+  // useEffect(() => {
+  //   if (error) throw error;
+  // }, [error]);
 
   useEffect(() => {
-    if (loaded && customColorScheme) {
+    if (customColorScheme) {
       setTimeout(() => {
         // ちょっと遅らせないとindex.tsxが表示されてしまう
         // -> useEffectでユーザー認証を感知しているから
         SplashScreen.hideAsync();
       }, 500);
     }
-  }, [loaded, customColorScheme]);
+  }, [customColorScheme]);
 
   useEffect(() => {
     let isMounted = true;
@@ -89,7 +91,7 @@ function RootLayout() {
     };
   }, [router]);
 
-  if (!loaded || !customColorScheme) {
+  if (!customColorScheme) {
     return null;
   }
 
@@ -102,7 +104,9 @@ function RootLayout() {
           // navigationBarTranslucent
           >
             <UpdateView />
-            <Slot />
+            <GestureHandlerRootView style={{ flex: 1 }}>
+              <Slot />
+            </GestureHandlerRootView>
           </KeyboardProvider>
         </ProtectedProvider>
       </GluestackUIProvider>

@@ -1,6 +1,9 @@
 import { withLayoutContext } from 'expo-router';
 
-import { FontAwesome } from '@expo/vector-icons';
+import FontAwesome from '@expo/vector-icons/Ionicons';
+
+import { ArrowDown } from 'lucide-react-native';
+
 import { Pressable } from '@gluestack-ui/themed';
 import { ParamListBase, StackNavigationState } from '@react-navigation/native';
 import {
@@ -34,8 +37,8 @@ export default function MainLayout() {
           headerShown: true,
           headerLeft: (props) => {
             return (
-              <Pressable borderRadius={'$full'} p={'$1'} bgColor='#fff' ml='$4'>
-                <FontAwesome name='arrow-down' size={20} color={'#000'} {...props} />
+              <Pressable borderRadius={'$full'} w={'$2'} h={'$2'} rounded={'$full'} bgColor='#fff' ml='$4'>
+                <ArrowDown size={20} color={'#000'} />
               </Pressable>
             );
           },
